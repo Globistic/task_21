@@ -51,7 +51,7 @@ class _Loan_detailState extends State<Loan_detail> {
                         children: [
                       Container(
                         decoration: BoxDecoration(
-                            color: Colors.grey,
+                            color: Colors.grey[100],
                             border: Border.all(
                               color: Colors.black12
                             ),
