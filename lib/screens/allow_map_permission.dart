@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:task_21/screens/name_screen.dart';
 import 'package:task_21/screens/registration_screen.dart';
 
 class MapScreen extends StatefulWidget {
@@ -88,7 +89,7 @@ class _MapScreenState extends State<MapScreen> {
             onPressed: () async {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => RegistrationScreen()),
+                MaterialPageRoute(builder: (context) => NameScreen()),
               );
             },
             padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
@@ -113,31 +114,7 @@ class _MapScreenState extends State<MapScreen> {
           SizedBox(
             height: 20,
           ),
-          // NeumorphicButton(
-          //   onPressed: () {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(builder: (context) => RegistrationScreen(  )),
-          //     );
-          //   },
-          //   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-          //   margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          //   style: NeumorphicStyle(
-          //     boxShape: NeumorphicBoxShape.roundRect(
-          //       BorderRadius.circular(30),
-          //     ),
-          //     depth: 1,
-          //   ),
-          //   child: Center(
-          //     child: Text(
-          //       'Next',
-          //       style: TextStyle(
-          //         fontSize: 24,
-          //         fontWeight: FontWeight.w600,
-          //       ),
-          //     ),
-          //   ),
-          // ),
+
           Expanded(
             flex: 2,
             child: Padding(

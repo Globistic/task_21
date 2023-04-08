@@ -5,8 +5,10 @@ import 'package:task_21/screens/wallet_screen.dart';
 
 import 'emergency_contact_screen.dart';
 import 'lending_amount_screen.dart';
+import 'loan_detail.dart';
 import 'loan_status_screen.dart';
 import 'loan_terms_screen.dart';
+import 'main_profile.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -108,6 +110,36 @@ class HomeScreen extends StatelessWidget {
                           );
                         },
                         child: Text('Terms & Condition'),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      NeumorphicButton(
+                        padding: const EdgeInsets.all(15),
+                        style: NeumorphicStyle(),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Loan_detail()),
+                          );
+                        },
+                        child: Text('Login Details'),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      NeumorphicButton(
+                        padding: const EdgeInsets.all(15),
+                        style: NeumorphicStyle(),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Main_Profile()),
+                          );
+                        },
+                        child: Text('Profile'),
                       ),
                       SizedBox(
                         width: 5,

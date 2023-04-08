@@ -62,7 +62,7 @@ class _AddMobileNumberScreenState extends State<AddMobileNumberScreen> {
           loading = false;
         });
       },
-      timeout: Duration(seconds: 60),
+      timeout: Duration(seconds: 120),
     );
   }
 

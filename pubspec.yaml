@@ -49,6 +49,9 @@ dependencies:
   url_launcher: ^6.1.10
   geolocator: ^7.6.2
   fluttertoast:
+  velocity_x: ^3.6.0
+  get: ^4.6.5
+
 
 
 
