@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       primarySwatch: Colors.lime,
     );
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter App',
       theme: ThemeData.from(colorScheme: colorScheme),
       color: Colors.lightGreen,
       home: AddMobileNumberScreen(),
