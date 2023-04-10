@@ -6,7 +6,8 @@ import 'package:task_21/screens/add_mobile_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
+  //same update
+  //new update
   runApp(const MyApp());
 }
 
