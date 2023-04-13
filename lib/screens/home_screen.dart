@@ -1,24 +1,57 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:task_21/screens/wallet_screen.dart';
 
-import 'emergency_contact_screen.dart';
-import 'lending_amount_screen.dart';
+import 'add_mobile_screen.dart';
 import 'loan_detail.dart';
 import 'loan_status_screen.dart';
 import 'loan_terms_screen.dart';
 import 'main_profile.dart';
 
 class HomeScreen extends StatelessWidget {
+
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
-            elevation: 0,
+
+            actions: [
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.lightBlueAccent,
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.red,
+                    width: 2,
+                  ),
+                ),
+                child: IconButton(onPressed: (){
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Profile()),
+                  );
+                }, icon: Icon(Icons.person_rounded,color: Colors.red,)),
+              ),
+              SizedBox(width: 20,),
+              IconButton(
+                icon: Icon(Icons.logout),
+                onPressed: () async {
+                  await _auth.signOut();
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => AddMobileNumberScreen()),
+                  );
+                },
+              ),
+            ],           elevation: 0,
             leading: SizedBox(),
-            backgroundColor: Colors.grey[300],
+            backgroundColor: Colors.lightGreen,
             centerTitle: true,
             title: Text(
               'HOME ',
@@ -45,34 +78,9 @@ class HomeScreen extends StatelessWidget {
                   ),
                   child: Center(
                     child: Column(children: [
+                      Text('TO Be Completed Soon In Next Update'),
                       SizedBox(height: 20),
-                      NeumorphicButton(
-                        padding: const EdgeInsets.all(15),
-                        style: NeumorphicStyle(),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => LendingAmountScreen()),
-                          );
-                        },
-                        child: Text('Amount'),
-                      ),
-                      SizedBox(height: 20),
-                      NeumorphicButton(
-                        padding: const EdgeInsets.all(15),
-                        style: NeumorphicStyle(),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    EmergencyContactsScreen()),
-                          );
-                        },
-                        child: Text('Emergency'),
-                      ),
-                      SizedBox(height: 20),
+
                       NeumorphicButton(
                         padding: const EdgeInsets.all(15),
                         style: NeumorphicStyle(),
@@ -112,7 +120,7 @@ class HomeScreen extends StatelessWidget {
                         child: Text('Terms & Condition'),
                       ),
                       SizedBox(
-                        width: 20,
+                        height: 20,
                       ),
                       NeumorphicButton(
                         padding: const EdgeInsets.all(15),
@@ -127,23 +135,9 @@ class HomeScreen extends StatelessWidget {
                         child: Text('Login Details'),
                       ),
                       SizedBox(
-                        width: 20,
+                        height: 20,
                       ),
-                      NeumorphicButton(
-                        padding: const EdgeInsets.all(15),
-                        style: NeumorphicStyle(),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => Main_Profile()),
-                          );
-                        },
-                        child: Text('Profile'),
-                      ),
-                      SizedBox(
-                        width: 5,
-                      )
+
                     ]),
                   )),
             ),

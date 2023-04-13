@@ -4,7 +4,12 @@ import 'package:get/get.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class Loan_detail extends StatefulWidget {
-  const Loan_detail({Key? key}) : super(key: key);
+
+
+
+
+
+
 
   @override
   State<Loan_detail> createState() => _Loan_detailState();
@@ -23,7 +28,7 @@ class _Loan_detailState extends State<Loan_detail> {
             title: const Text(
               'Loan Detail',
             ).text.bold.black.make(),
-            backgroundColor: Color(0xFF76FF03),
+            backgroundColor: Colors.lightGreen,
             centerTitle: true,
             elevation: 0,
             leading: IconButton(onPressed: (){
@@ -37,7 +42,7 @@ class _Loan_detailState extends State<Loan_detail> {
                   clipBehavior: Clip.none,
                   children: [
                     Container(
-                      color: Color(0xFF76FF03),
+                      color: Colors.lightGreen,
                       width: double.infinity,
                       height: 250,
                     ),

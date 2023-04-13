@@ -1,17 +1,18 @@
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 
-class Main_Profile extends StatefulWidget {
-  const Main_Profile({super.key});
+class Profile extends StatefulWidget {
+  const Profile({super.key});
 
   @override
-  State<Main_Profile> createState() => _Main_ProfileState();
+  State<Profile> createState() => _ProfileState();
 }
 
-class _Main_ProfileState extends State<Main_Profile> {
+class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(child:Scaffold(
@@ -19,7 +20,7 @@ class _Main_ProfileState extends State<Main_Profile> {
       body: SingleChildScrollView(child: Column(children: [
         Card(
           child: ListTile(
-            leading: CircleAvatar(child: Image.asset('image/user.png'),),
+           // leading: CircleAvatar(child: Image.asset('image/user.png'),),
             title: Text('NOOR UL AKBAR'),
             subtitle: Text('03******2423'),
             trailing: Icon(Icons.notifications),
@@ -31,6 +32,27 @@ class _Main_ProfileState extends State<Main_Profile> {
             borderRadius: BorderRadius.all(Radius.circular(10))
           ),
           child: Column(children: [
+            FutureBuilder(
+              future: FirebaseFirestore.instance.collection('users').get(),
+              builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      var data = snapshot.data!.docs[index].data() as Map<String, dynamic>;
+                      return ListTile(
+                        title: Text(data['name']),
+                        subtitle: Text(data['phoneNo']),
+                      );
+                    },
+                  );
+                } else if (snapshot.hasError) {
+                  return Text('Error fetching data');
+                } else {
+                  return Center(child: CircularProgressIndicator());
+                }
+              },
+            ),
             ListTile(
               onTap: (){
                       showDialog(
@@ -59,7 +81,7 @@ class _Main_ProfileState extends State<Main_Profile> {
         },
       );
               },
-            leading: Image.asset('image/customer.jpg',height: 30,width: 30,),
+         //   leading: Image.asset('image/customer.jpg',height: 30,width: 30,),
             title: Text('Customer Service/Need Help'),
             trailing: Icon(Icons.arrow_forward_ios)
             ).py(6),

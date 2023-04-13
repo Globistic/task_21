@@ -2,8 +2,49 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:task_21/screens/emergency_contact_screen.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 class LendingAmountScreen extends StatefulWidget {
+
+  final  map_longitude;
+  final  map_latitude;
+  final  ph_NoController;
+  final  name;
+  final  cnicName;
+  final  cnicNo;
+  final  cnicExpiry;
+  final  dob;
+  final  currentAddress;
+  final  persentAddress;
+  final  qualification;
+  final  noOfChildern;
+  final  mariedStatus;
+  final  cnicFront;
+  final  cnicBack;
+
+
+  const LendingAmountScreen({
+    Key? key,
+    required this.map_latitude,
+    required this.name,
+    required this.ph_NoController,
+    required this.map_longitude,
+    required this.cnicName,
+    required this.cnicNo,
+    required this.cnicExpiry,
+    required this.dob,
+    required this.currentAddress,
+    required this.persentAddress,
+    required this.qualification,
+    required this.noOfChildern,
+    required this.mariedStatus,
+    required this.cnicFront,
+    required this.cnicBack
+  }) : super(key: key);
+
+
+
+
   @override
   _LendingAmountScreenState createState() => _LendingAmountScreenState();
 }
@@ -177,7 +218,31 @@ class _LendingAmountScreenState extends State<LendingAmountScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => EmergencyContactsScreen()),
+                      builder: (context) => EmergencyContactsScreen(
+
+                        name: widget.name,
+                        map_latitude: widget.map_latitude,
+                        map_longitude: widget.map_longitude ,
+                        ph_NoController: widget.ph_NoController,
+                        cnicExpiry: widget.cnicExpiry,
+                        cnicNo: widget.cnicNo,
+                        cnicName: widget.cnicName ,
+                        currentAddress: widget.currentAddress,
+                        dob: widget.dob,
+                        persentAddress: widget.persentAddress,
+                        mariedStatus: widget.mariedStatus,
+                        noOfChildern: widget.noOfChildern,
+                        qualification: widget.qualification,
+                        loanAmount: _selectedAmount.text,
+                        cnicFront: widget.cnicFront,
+                        cnicBack: widget.cnicBack,
+                        bill_card_pic: widget.cnicBack,
+                        selfi: widget.cnicBack,
+                        selfiWithCNIC: widget.cnicBack,
+
+
+
+                      )),
                 );
               },
               padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),

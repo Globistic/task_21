@@ -2,6 +2,7 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:task_21/screens/utils.dart';
+import 'package:velocity_x/velocity_x.dart';
 
 import 'otp_screen.dart';
 
@@ -22,9 +23,6 @@ class _AddMobileNumberScreenState extends State<AddMobileNumberScreen> {
   bool loading = false;
 
   final _formKey = GlobalKey<FormState>();
-
-  var _verificationId;
-  var _resendToken;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
@@ -50,11 +48,12 @@ class _AddMobileNumberScreenState extends State<AddMobileNumberScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => OTPScreen(verificationId: verificationId)),
+              builder: (context) => OTPScreen(verificationId: verificationId , phNo: phNo.text)),
         );
         setState(() {
           loading = false;
         });
+        //phNo.text = '';
       },
       codeAutoRetrievalTimeout: (e) {
         Utils.toastMessage(e.toString());
@@ -62,9 +61,26 @@ class _AddMobileNumberScreenState extends State<AddMobileNumberScreen> {
           loading = false;
         });
       },
-      timeout: Duration(seconds: 120),
+      timeout: Duration(seconds: 30),
     );
   }
+  bool isValidNo(String value) {
+    if (value == null || value.isEmpty) {
+      // Phone number cannot be null or empty
+      return false;
+    }
+    if (value.length != 10 && value.length != 11) {
+      // Phone number must be exactly 10 or 11 digits long
+      return false;
+    }
+    if (!RegExp(r'^[0-9]+$').hasMatch(value)) {
+      // Phone number must contain only digits
+      return false;
+    }
+    return true;
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -130,52 +146,51 @@ class _AddMobileNumberScreenState extends State<AddMobileNumberScreen> {
                       ),
                       padding: const EdgeInsets.symmetric(
                           vertical: 0.5, horizontal: 10),
-                      child: TextField(
-                        controller: phNo,
-                        // onChanged: (value) {
-                        //   phNo = v68ue as TextEditingController;
-                        // },
-                        decoration: const InputDecoration(
-                          hintText: 'Enter Mobile Number',
-                          border: InputBorder.none,
-                        ),
-                        keyboardType: TextInputType.number,
+                     child: TextFormField(
+                      controller: phNo,
+                      validator: (value) {
+                        if (value?.isEmpty ?? true) {
+                          return 'Please enter your no';
+                        }
+                        if (!isValidNo(value!)) {
+                          return 'Please enter a valid no';
+                        }
+                        return null;
+                      },
+                      onSaved: (value) {
+                        phNo.text = value.toString();
+                      },
+                      decoration: const InputDecoration(
+                        hintText: 'Enter Mobile Number',
+                        border: InputBorder.none,
                       ),
+                      keyboardType: TextInputType.number,
                     ),
+
+                  ),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 30),
-            // Container(
-            //   //width: 180,
-            //   child: Neumorphic(
-            //     style: NeumorphicStyle(
-            //       depth: 2,
-            //       intensity: 0.8,
-            //       shape: NeumorphicShape.flat,
-            //     ),
-            //     padding:
-            //         const EdgeInsets.symmetric(vertical: 0.5, horizontal: 10),
-            //     child: TextField(
-            //       textAlign: TextAlign.center,
-            //       controller: smsCode,
-            //       decoration: const InputDecoration(
-            //         hintText: 'Enter OTP',
-            //         border: InputBorder.none,
-            //       ),
-            //       keyboardType: TextInputType.number,
-            //     ),
-            //   ),
-            // ),
-            const SizedBox(height: 30),
-
+            const SizedBox(height: 60),
             NeumorphicButton(
               onPressed: () async {
-                _verifyPhoneNumber();
-                setState(() {
-                  loading = true;
-                });
+
+                ////remove it later
+
+
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //       builder: (context) => OTPScreen(verificationId: 52852 , phNo: phNo.text)),
+                // );
+                if (_formKey.currentState != null && _formKey.currentState!.validate()) {
+                  _verifyPhoneNumber();
+                  setState(() {
+                    loading = true;
+
+                  });
+                }
               },
               padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
               margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),

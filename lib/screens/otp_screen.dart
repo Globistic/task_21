@@ -8,8 +8,9 @@ import 'allow_map_permission.dart';
 
 class OTPScreen extends StatefulWidget {
   final verificationId;
+  final phNo;
 
-  const OTPScreen({Key? key, required this.verificationId}) : super(key: key);
+  const OTPScreen({Key? key, required this.verificationId , this.phNo}) : super(key: key);
 
   @override
   State<OTPScreen> createState() => _OTPScreenState();
@@ -21,21 +22,6 @@ class _OTPScreenState extends State<OTPScreen> {
   TextEditingController smsCode = TextEditingController();
   bool loading = false;
 
-  // void _signInWithPhoneNumber() async {
-  //   try {
-  //     final PhoneAuthCredential credential = PhoneAuthProvider.credential(
-  //       verificationId: verificationId.toString(),
-  //       smsCode: smsCode.text,
-  //     );
-  //     await _auth.signInWithCredential(credential);
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute(builder: (context) => MapScreen()),
-  //     );
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +66,16 @@ class _OTPScreenState extends State<OTPScreen> {
             ),
             const SizedBox(height: 30),
             NeumorphicButton(
+
               onPressed: () async {
+
+                // remove it later
+
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => MapScreen(ph_NoController: widget.phNo, )),
+                // );
+
                 setState(() {
                   loading = true;
                 });
@@ -92,7 +87,7 @@ class _OTPScreenState extends State<OTPScreen> {
                   await _auth.signInWithCredential(credientilas);
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => MapScreen()),
+                    MaterialPageRoute(builder: (context) => MapScreen(ph_NoController: widget.phNo, )),
                   );
                 } catch (e) {
                   setState(() {

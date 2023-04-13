@@ -1,11 +1,81 @@
-import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:task_21/providers/registration_provider.dart';
 import 'package:task_21/screens/home_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_contacts/flutter_contacts.dart';
+import '../bloc/registration_form/bloc.dart';
+import '../bloc/registration_form/event.dart';
+import '../providers/auth_provider.dart';
+import 'fetch_contacts.dart';
+import 'loanDetailsScreen.dart';
+import 'loan_terms_screen.dart';
+import 'main_profile.dart';
 
 class EmergencyContactsScreen extends StatefulWidget {
+  final map_longitude;
+  final map_latitude;
+  final ph_NoController;
+  final name;
+  final cnicName;
+  final cnicNo;
+  final cnicExpiry;
+  final dob;
+  final currentAddress;
+  final persentAddress;
+  final qualification;
+  final noOfChildern;
+  final mariedStatus;
+  final bill_card_pic;
+  final cnicFront;
+  final cnicBack;
+  final loanAmount;
+  final selfi;
+  final selfiWithCNIC;
+  final contact;
+  final check;
+  final bool;
+  final emergency_family_name;
+  final emergency_famly_number;
+  final emergency_friend_number;
+  final emergency_friend_name;
+  final relationShip;
+
+
+
+  const EmergencyContactsScreen({
+    Key? key,
+    this.map_latitude,
+    this.name,
+    this.ph_NoController,
+    this.map_longitude,
+    this.cnicName,
+    this.cnicNo,
+    this.cnicExpiry,
+    this.dob,
+    this.currentAddress,
+    this.persentAddress,
+    this.qualification,
+    this.noOfChildern,
+    this.mariedStatus,
+    this.bill_card_pic,
+    this.cnicFront,
+    this.cnicBack,
+    this.loanAmount,
+    this.selfi,
+    this.selfiWithCNIC,
+    this.contact,
+    this.check,
+    this.bool,
+    this.emergency_family_name,
+    this.relationShip,
+    this.emergency_famly_number,
+    this.emergency_friend_number,
+    this.emergency_friend_name,
+  }) : super(key: key);
+
   @override
   _EmergencyContactsScreenState createState() =>
       _EmergencyContactsScreenState();
@@ -16,54 +86,101 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
   List<Contact> _selectedContacts = [];
   bool _isSubmitting = false;
 
+  // SignUpProvider addata = SignUpProvider();
+  AuthServicesProvider authService = AuthServicesProvider();
+
+
+
+  TextEditingController relationShipWithFamilyMember = TextEditingController();
+
   @override
   void initState() {
     super.initState();
-    // _fetchContacts();
+    getNameNumber();
+    getFriendNo();
   }
 
-  _openContacts() async {
-    final uri = 'content://contacts/people/';
-    await LaunchUrl().launchUri(uri);
+
+  getNameNumber() {
+
+
+    if (widget.check == true) {
+
+      family_member_name = widget.contact.name.first;
+      family_member_number = widget.contact.phones.isNotEmpty
+          ? widget.contact.phones.first.number
+          : '(none)';
+      print(family_member_number.toString());
+      print(family_member_name.toString());
+
+
+    }
   }
+  getFriendNo() {
+
+    if (widget.bool == true) {
+
+      friend_name = widget.contact.name.first;
+      friend_number = widget.contact.phones.isNotEmpty
+          ? widget.contact.phones.first.number
+          : '(none)';
+      print(friend_number.toString());
+      print(friend_name.toString());
+
+    }
+  }
+
+  String? family_member_name;
+  String? family_member_number;
+  String? friend_name;
+  String? friend_number;
+
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
+    return BlocProvider(
+      create: (BuildContext context) => RegistrationBloc()..add(InitEvent()),
+      child: Builder(builder: (context) => _buildPage(context)),
+    );
+  }
+
+  Widget _buildPage(BuildContext context) {
+    return Scaffold(
       backgroundColor: Colors.lightGreen,
-      body: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
+      body: SafeArea(  
+        child: Padding(
+    padding: const EdgeInsets.all(24),
+    child: SingleChildScrollView(
+      child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Padding(
               padding: const EdgeInsets.only(bottom: 20),
-              child: Stack(
+              child: Row(
                 children: [
-                  LinearProgressIndicator(
-                    value: 0.9, // 10% as decimal value
-                    backgroundColor: Colors.grey[300],
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                    semanticsLabel: 'Linear progress indicator',
+                  Expanded(
+                    flex: 7,
+                    child: LinearProgressIndicator(
+                      value: 0.9, // 90% as decimal value
+                      backgroundColor: Colors.grey[300],
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                      semanticsLabel: 'Linear progress indicator',
+                    ),
                   ),
-                  Positioned(
-                    top: 2,
-                    bottom: 2,
-                    left: 2,
-                    right: 2,
+                  Expanded(
+                    flex: 1,
                     child: Align(
                       alignment: Alignment.center,
                       child: Text(
-                        '10%',
+                        '90%',
                         style: TextStyle(
                           fontSize: 20,
-                          color: Colors.black,
+                          color: Colors.black87,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-                  ),
+                  )
                 ],
               ),
             ),
@@ -86,8 +203,46 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
               children: [
                 Expanded(
                   child: NeumorphicButton(
-                    onPressed: () {
-                      _openContacts();
+                    onPressed: () async {
+                      // _launchContacts();
+
+
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => FlutterContactsExample(
+
+
+                                  ph_NoController: widget.ph_NoController,
+                                  name: widget.name,
+                                  map_latitude: widget.map_latitude,
+                                  map_longitude: widget.map_longitude,
+                                  cnicName: widget.cnicName,
+                                  cnicNo: widget.cnicNo,
+                                  cnicExpiry: widget.cnicExpiry,
+                                  dob: widget.dob,
+                                  currentAddress: widget.currentAddress,
+                                  persentAddress: widget.persentAddress,
+                                  mariedStatus: widget.mariedStatus,
+                                  noOfChildern: widget.noOfChildern,
+                                  qualification: widget.qualification,
+                                  bill_card_pic: widget.bill_card_pic,
+                                  selfi: widget.selfi,
+                                  selfiWithCNIC: widget.selfiWithCNIC,
+                                  loanAmount: '2500',
+                                  cnicBack: widget.cnicBack,
+                                  cnicFront: widget.cnicFront,
+                                  relationShip: relationShipWithFamilyMember.text,
+                                  emergency_famly_number: family_member_number.toString(),
+                                  emergency_family_name: family_member_name.toString(),
+                                  emergency_friend_number: friend_number.toString(),
+                                  emergency_friend_name: friend_name.toString(),
+                                  check : true,
+                                  bool:  false
+                              )),
+
+                      );
                     },
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                     margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -99,7 +254,7 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                     ),
                     child: Center(
                       child: Text(
-                        'Select Contacts ',
+                        'Add Contact',
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
@@ -118,23 +273,62 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                     ),
                     padding: const EdgeInsets.symmetric(
                         vertical: 0.5, horizontal: 10),
-                    child: const TextField(
+                    child: DropdownButtonFormField(
                       decoration: InputDecoration(
-                        hintText: 'Relation Ship',
+                        hintText: 'Relationship',
                         border: InputBorder.none,
                       ),
+                      items: [
+                        DropdownMenuItem(
+                          value: 'Father',
+                          child: Text('Father'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Mother',
+                          child: Text('Mother'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Brother',
+                          child: Text('Brother'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Sister',
+                          child: Text('Sister'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Wife',
+                          child: Text('Wife'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Husband',
+                          child: Text('Husband'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Spouse',
+                          child: Text('Spouse'),
+                        ),
+                        DropdownMenuItem(
+                          value: 'Child',
+                          child: Text('Child'),
+                        ),
+                      ],
+                      onChanged: (value) {
+                        setState(() {
+                          relationShipWithFamilyMember.text = value.toString();
+                        });
+                      },
                     ),
                   ),
                 ),
               ],
             ),
             SizedBox(height: 15),
-            Row(
+       widget.check == null || false ? SizedBox():  Row(
               children: [
                 Expanded(
                   flex: 5,
                   child: Neumorphic(
-                    margin: const EdgeInsets.only(right: 10),
+                    margin: const EdgeInsets.all(10),
                     style: NeumorphicStyle(
                       depth: 2,
                       intensity: 0.8,
@@ -142,28 +336,73 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                     ),
                     padding: const EdgeInsets.symmetric(
                         vertical: 0.5, horizontal: 10),
-                    child: const TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Member Name',
-                        border: InputBorder.none,
+                    child: Padding(
+                      padding: EdgeInsets.all(15),
+                      child: Column(
+                        children: [
+                          Row(children: [
+                            Text('Name:   '),
+                            Text('${family_member_name}'),
+                          ],),
+                          SizedBox(height: 20,),
+                          Row(children: [
+                            Text('Number:   '),
+                            Text('${family_member_number}'),
+                          ],),
+                          SizedBox(width: 80),
+                        ],
                       ),
                     ),
+
                   ),
                 ),
               ],
             ),
-            SizedBox(height: 32),
+            SizedBox(height: 25),
             Text(
-              'Friend Number ',
+              'Friend',
               style: TextStyle(fontSize: 18),
             ),
             SizedBox(height: 10),
             Row(
               children: [
                 Expanded(
-                  child: NeumorphicButton(
+                  child:
+                  NeumorphicButton(
                     onPressed: () {
-                      _openContacts();
+                      // _launchContacts();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => FlutterContactsExample(
+                              ph_NoController: widget.ph_NoController,
+                              name: widget.name,
+                              map_latitude: widget.map_latitude,
+                              map_longitude: widget.map_longitude,
+                              cnicName: widget.cnicName,
+                              cnicNo: widget.cnicNo,
+                              cnicExpiry: widget.cnicExpiry,
+                              dob: widget.dob,
+                              currentAddress: widget.currentAddress,
+                              persentAddress: widget.persentAddress,
+                              mariedStatus: widget.mariedStatus,
+                              noOfChildern: widget.noOfChildern,
+                              qualification: widget.qualification,
+                              bill_card_pic: widget.bill_card_pic,
+                              selfi: widget.selfi,
+                              selfiWithCNIC: widget.selfiWithCNIC,
+                              loanAmount: '2500',
+                              cnicBack: widget.cnicBack,
+                              cnicFront: widget.cnicFront,
+                              relationShip: relationShipWithFamilyMember.text,
+                              emergency_famly_number: family_member_number.toString(),
+                              emergency_family_name: family_member_name.toString(),
+                                check: false, bool : true,
+                              emergency_friend_number: friend_number.toString(),
+                              emergency_friend_name: friend_name.toString(),
+
+                            )),
+                      );
                     },
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                     margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -175,9 +414,9 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                     ),
                     child: Center(
                       child: Text(
-                        'Select From Contacts List',
+                        'Add Contact',
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 14,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -187,12 +426,12 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
               ],
             ),
             SizedBox(height: 15),
-            Row(
+            widget.bool == null || false ? SizedBox():  Row(
               children: [
                 Expanded(
                   flex: 5,
                   child: Neumorphic(
-                    margin: const EdgeInsets.only(right: 10),
+                    margin: const EdgeInsets.all(10),
                     style: NeumorphicStyle(
                       depth: 2,
                       intensity: 0.8,
@@ -200,89 +439,63 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                     ),
                     padding: const EdgeInsets.symmetric(
                         vertical: 0.5, horizontal: 10),
-                    child: const TextField(
-                      decoration: InputDecoration(
-                        hintText: 'Friend Name',
-                        border: InputBorder.none,
+                    child: Padding(
+                      padding: EdgeInsets.all(15),
+                      child: Column(
+                        children: [
+                          Row(children: [
+                            Text('Name:   '),
+                            Text('${friend_name}'),
+                          ],),
+                          SizedBox(height: 20,),
+                          Row(children: [
+                            Text('Number:   '),
+                            Text('${friend_number}'),
+                          ],),
+                          SizedBox(width: 80),
+                        ],
                       ),
                     ),
+
                   ),
                 ),
               ],
             ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: _contacts.length,
-                itemBuilder: (context, index) {
-                  Contact contact = _contacts[index];
-                  return NeumorphicButton(
-                    padding: EdgeInsets.all(16),
-                    margin: EdgeInsets.symmetric(vertical: 8),
-                    style: NeumorphicStyle(
-                      depth: 3,
-                      color: _selectedContacts.contains(contact)
-                          ? Colors.blue
-                          : Colors.white,
-                      boxShape: NeumorphicBoxShape.roundRect(
-                        BorderRadius.circular(12),
-                      ),
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        if (_selectedContacts.contains(contact)) {
-                          _selectedContacts.remove(contact);
-                        } else {
-                          _selectedContacts.add(contact);
-                        }
-                      });
-                    },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "${contact.displayName}",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: NeumorphicTheme.defaultTextColor(context),
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 4,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                            SizedBox(width: 8),
-                            Text(
-                              "${contact.phones!.isNotEmpty ? contact.phones!.first.value : 'No phone number'}",
-                              style: TextStyle(
-                                fontSize: 16,
-                                color:
-                                    NeumorphicTheme.defaultTextColor(context),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
             SizedBox(height: 32),
             NeumorphicButton(
-              onPressed: () {
-                Navigator.push(
+              onPressed: () async {
+                authService.createUserWithEmailAndPassword(
+
                   context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                    phNo: widget.ph_NoController,
+                    name: widget.name,
+                    map_lat: widget.map_latitude,
+                    map_long: widget.map_longitude,
+                    cnicName: widget.cnicName,
+                    cnic: widget.cnicNo,
+                    cnic_exipry: widget.cnicExpiry,
+                    dob: widget.dob,
+                    current_address: widget.currentAddress,
+                    permennt_address: widget.persentAddress,
+                    married_status: widget.mariedStatus,
+                    no_of_childern: widget.noOfChildern,
+                    qualification: widget.qualification,
+                    bill_card_pic: widget.bill_card_pic,
+                    selfi: widget.selfi,
+                    selfi_withCNIC: widget.selfiWithCNIC,
+                    loanAmount: '2500',
+                    cnicBack: widget.cnicBack,
+                    cnicFront: widget.cnicFront,
+                    relationShip: relationShipWithFamilyMember.toString(),
+                    emergency_famly_number: family_member_number.toString(),
+                  emergency_family_name: family_member_name.toString(),
+                  emergency_friend_number: friend_number.toString(),
+                  emergency_friend_name: friend_name.toString(),
                 );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => HomeScreen()),
+                // );
               },
               padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
               margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -303,9 +516,11 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
               ),
             ),
           ],
+      ),
+    ),
         ),
       ),
-    ));
+    );
   }
 }
 

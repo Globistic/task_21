@@ -1,9 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_21/screens/add_mobile_screen.dart';
 
 void main() async {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
