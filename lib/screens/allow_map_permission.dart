@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:loan_app/screens/name_screen.dart';
 import 'package:location/location.dart';
-import 'package:task_21/screens/name_screen.dart';
-import 'package:task_21/screens/registration_screen.dart';
 
 class MapScreen extends StatefulWidget {
   final ph_NoController;
@@ -56,19 +55,19 @@ class _MapScreenState extends State<MapScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(left: 1),
+                    padding: const EdgeInsets.only(left: 1,bottom: 130),
                     child: Icon(
                       Icons.pin_drop_outlined,
-                      size: 150,
+                      size: 100,
                       color: Colors.red,
                     ),
                   ),
                   Center(
                       child: Padding(
-                    padding: const EdgeInsets.only(left: 30),
+                    padding: const EdgeInsets.only(left: 1),
                     child: Text(
-                      'Give Your Location Access',
-                      style: TextStyle(fontSize: 33),
+                      'Give Your Location Access: ',
+                      style: TextStyle(fontSize: 22),
                     ),
                   )),
                 ],

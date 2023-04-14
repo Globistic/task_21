@@ -5,7 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:task_21/screens/personal_info_screen.dart';
+
+import 'bill_card_screen.dart';
 
 class SelfiCNICScreen extends StatefulWidget {
   final map_longitude;
@@ -20,6 +21,7 @@ class SelfiCNICScreen extends StatefulWidget {
   final persentAddress;
   final File? cnicFront;
   final File? cnicBack;
+  final  mariedStatus;
 
   const SelfiCNICScreen({
     Key? key,
@@ -35,6 +37,7 @@ class SelfiCNICScreen extends StatefulWidget {
     required this.persentAddress,
     required this.cnicBack,
     required this.cnicFront,
+    required this.mariedStatus,
   }) : super(key: key);
 
   @override
@@ -91,7 +94,8 @@ class _SelfiCNICScreenState extends State<SelfiCNICScreen> {
                                 child: LinearProgressIndicator(
                                   value: 0.5, // 50% as decimal value
                                   backgroundColor: Colors.grey[300],
-                                  valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.blue),
                                   semanticsLabel: 'Linear progress indicator',
                                 ),
                               ),
@@ -107,8 +111,8 @@ class _SelfiCNICScreenState extends State<SelfiCNICScreen> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                ),)
-
+                                ),
+                              )
                             ],
                           ),
                           const SizedBox(height: 40),
@@ -134,8 +138,7 @@ class _SelfiCNICScreenState extends State<SelfiCNICScreen> {
                               intensity: 0.8,
                               shape: NeumorphicShape.flat,
                             ),
-                            child:
-                            Column(
+                            child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const Text(
@@ -220,30 +223,44 @@ class _SelfiCNICScreenState extends State<SelfiCNICScreen> {
                           ),
                           NeumorphicButton(
                             onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => PersonalInfoScreen(
-                                          name: widget.name,
-                                          map_latitude: widget.map_latitude,
-                                          map_longitude: widget.map_longitude,
-                                          ph_NoController:
-                                              widget.ph_NoController,
-                                          cnicExpiry: widget.cnicExpiry,
-                                          cnicNo: widget.cnicNo,
-                                      cnicName: widget.cnicName,
-                                          currentAddress: widget.currentAddress,
-                                          dob: widget.dob,
-                                          persentAddress: widget.persentAddress,
-                                          cnicFront:
-                                          widget.cnicFront, // Pass the CNIC front image file
-                                          cnicBack:
-                                          widget.cnicBack,
-                                      userSelfi: userSelfi ,
-                                      userSelfiWithCnic: userSelfiWithCnic ,
-                                      // Pass the CNIC back image file
-                                        )),
-                              );
+                              if (userSelfi == null ||
+                                  userSelfiWithCnic == null) {
+                                // Show an error message to the user if either photo is null
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        "Please take Selfi and Selfi with CNIC"),
+                                  ),
+                                );
+                              } else {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => BillCardScreen(
+                                            name: widget.name,
+                                            map_latitude: widget.map_latitude,
+                                            map_longitude: widget.map_longitude,
+                                            ph_NoController:
+                                                widget.ph_NoController,
+                                            cnicExpiry: widget.cnicExpiry,
+                                            cnicNo: widget.cnicNo,
+                                            cnicName: widget.cnicName,
+                                            currentAddress:
+                                                widget.currentAddress,
+                                            dob: widget.dob,
+                                            persentAddress:
+                                                widget.persentAddress,
+                                            cnicFront: widget
+                                                .cnicFront, // Pass the CNIC front image file
+                                            cnicBack: widget.cnicBack,
+                                        selfi: userSelfi,
+                                        selfiWithCNIC:
+                                                userSelfiWithCnic,
+                                            mariedStatus: widget.mariedStatus,
+                                            // Pass the CNIC back image file
+                                          )),
+                                );
+                              }
                             },
                             padding: EdgeInsets.symmetric(
                                 horizontal: 30, vertical: 10),

@@ -13,8 +13,8 @@ class User {
 class UserDataModel {
   final String? phoneNo;
   final String? name;
-  final double? map_lat;
-  final double? map_long;
+  final String? map_lat;
+  final String? map_long;
   final String? cnicName;
   final String? cnic;
   final String? cnic_exipry;

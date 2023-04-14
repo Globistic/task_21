@@ -2,10 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/contact.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:task_21/screens/emergency_contact_screen.dart';
 
-import '../shared_preferences/shared_prefrences.dart';
+import 'emergency_contact_screen.dart';
 
 
 class FlutterContactsExample extends StatefulWidget {
@@ -129,8 +127,8 @@ class _FlutterContactsExampleState extends State<FlutterContactsExample> {
                     currentAddress: widget.currentAddress,
                     persentAddress: widget.persentAddress,
                     mariedStatus: widget.mariedStatus,
-                    noOfChildern: widget.noOfChildern,
-                    qualification: widget.qualification,
+               //     noOfChildern: widget.noOfChildern,
+               //     qualification: widget.qualification,
                     bill_card_pic: widget.bill_card_pic,
                     selfi: widget.selfi,
                     selfiWithCNIC: widget.selfiWithCNIC,

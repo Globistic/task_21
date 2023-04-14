@@ -6,11 +6,11 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:task_21/extensions/cath_fireBase_error.dart';
+import 'package:loan_app/extensions/cath_fireBase_error.dart';
 import 'package:velocity_x/velocity_x.dart';
-
 import '../healper/exception.dart';
 import '../model/user_model.dart';
+import '../screens/dasbBoard_Screen.dart';
 import '../screens/home_screen.dart';
 
 class AuthServicesProvider extends ChangeNotifier {
@@ -121,8 +121,8 @@ class AuthServicesProvider extends ChangeNotifier {
     required String current_address,
     required String permennt_address,
     required String married_status,
-    required String no_of_childern,
-    required String qualification,
+  //  required String no_of_childern,
+  //  required String qualification,
     required String loanAmount,
     required String emergency_family_name,
     required String emergency_famly_number,
@@ -135,9 +135,63 @@ class AuthServicesProvider extends ChangeNotifier {
     required File selfi,
     required File bill_card_pic,
   }) async {
+
     try {
+String? cnicFrontUrl;
+String? cnicBackUrl;
+String? billCardUrl;
+String? selfiUrl;
+String? selfi_withCNICUrl;
+      final cnicFrontRef = FirebaseStorage.instance
+          .ref()
+          .child('images/${_firebaseAuth.currentUser?.uid}-cnicFront.png');
+      try {
+        final cnicFrontTask = await cnicFrontRef.putFile(cnicFront);
+         cnicFrontUrl = await (cnicFrontTask).ref.getDownloadURL();
+      } catch (e) {
+        print(e.toString());
+      }
+
+      final cnicBackRef = FirebaseStorage.instance
+          .ref()
+          .child('images/${_firebaseAuth.currentUser?.uid}-cnicBack.png');
+      try {
+        final cnicBackTask = await cnicBackRef.putFile(cnicBack);
+         cnicBackUrl = await (await cnicBackTask).ref.getDownloadURL();
+      } catch (e) {
+        print(e.toString());
+      }
+      ////////////////
+      final billCardPicRef = FirebaseStorage.instance
+          .ref()
+          .child('images/${_firebaseAuth.currentUser?.uid}-bill_card_pic.png');
+      try {
+        final billCardTask = await billCardPicRef.putFile(bill_card_pic);
+         billCardUrl = await (await billCardTask).ref.getDownloadURL();
+      } catch (e) {
+        print(e.toString());
+      }
+
+      final selfiRef = FirebaseStorage.instance
+          .ref()
+          .child('images/${_firebaseAuth.currentUser?.uid}-selfi.png');
+      try {
+        final selfiTask = await selfiRef.putFile(selfi);
+         selfiUrl = await (await selfiTask).ref.getDownloadURL();
+      } catch (e) {
+        print(e.toString());
+      }
+      final selfi_withCNICRef = FirebaseStorage.instance
+          .ref()
+          .child('images/${_firebaseAuth.currentUser?.uid}-selfi_withCNIC.png');
+      try {
+        final selfi_withCNICTask = await selfi_withCNICRef.putFile(selfi_withCNIC);
+         selfi_withCNICUrl = await (await selfi_withCNICTask).ref.getDownloadURL();
+      } catch (e) {
+        print(e.toString());
+      }
       final userDoc =
-          await adduser.FirebaseFirestore.instance.collection('users').doc(_firebaseAuth.currentUser?.uid).set({
+      await adduser.FirebaseFirestore.instance.collection('users').doc(_firebaseAuth.currentUser?.uid).set({
         'phoneNo': phNo,
         'name': name,
         'map_lat': map_lat,
@@ -149,64 +203,20 @@ class AuthServicesProvider extends ChangeNotifier {
         'current_address': current_address,
         'permennt_address': permennt_address,
         'married_status': married_status,
-        'no_of_childern': no_of_childern,
-        'qualification': qualification,
-        'loanAmount': loanAmount,
-        // 'emergency_family_name': emergency_family_name,
-        // 'emergency_famly_number': emergency_famly_number,
+       // 'no_of_childern': no_of_childern,
+       // 'qualification': qualification,
+      //  'loanAmount': loanAmount,
+        "cnicFront": cnicFrontUrl,
+        "cnicFront": cnicBackUrl,
+        "cnicFront": selfiUrl,
+        "cnicFront": selfi_withCNICUrl,
+        "cnicFront": billCardUrl,
+         'emergency_family_name': emergency_family_name,
+         'emergency_famly_number': emergency_famly_number,
         // 'emergency_friend_number': emergency_friend_number,
         // 'emergency_friend_number': emergency_friend_number,
         'relationShip': relationShip,
       });
-
-      final cnicFrontRef = FirebaseStorage.instance
-          .ref()
-          .child('images/${_firebaseAuth.currentUser?.uid}-cnicFront.png');
-      try {
-        final cnicFrontTask = await cnicFrontRef.putFile(cnicFront);
-        final cnicFrontUrl = await (await cnicFrontTask).ref.getDownloadURL();
-      } catch (e) {
-        print(e.toString());
-      }
-
-      final cnicBackRef = FirebaseStorage.instance
-          .ref()
-          .child('images/${_firebaseAuth.currentUser?.uid}-cnicBack.png');
-      try {
-        final cnicBackTask = await cnicBackRef.putFile(cnicBack);
-        final cnicBackUrl = await (await cnicBackTask).ref.getDownloadURL();
-      } catch (e) {
-        print(e.toString());
-      }
-      ////////////////
-      final billCardPicRef = FirebaseStorage.instance
-          .ref()
-          .child('images/${_firebaseAuth.currentUser?.uid}-bill_card_pic.png');
-      try {
-        final billCardTask = await billCardPicRef.putFile(bill_card_pic);
-        final billCardUrl = await (await billCardTask).ref.getDownloadURL();
-      } catch (e) {
-        print(e.toString());
-      }
-
-      final selfiRef = FirebaseStorage.instance
-          .ref()
-          .child('images/${_firebaseAuth.currentUser?.uid}-selfi.png');
-      try {
-        final selfiTask = await selfiRef.putFile(selfi);
-        final selfiUrl = await (await selfiTask).ref.getDownloadURL();
-      } catch (e) {
-        print(e.toString());
-      }
-      final selfi_withCNICRef = FirebaseStorage.instance
-          .ref()
-          .child('images/${_firebaseAuth.currentUser?.uid}-selfi_withCNIC.png');
-      try {
-        final selfi_withCNICTask = await selfi_withCNICRef.putFile(selfi_withCNIC);
-        final selfi_withCNICUrl = await (await selfi_withCNICTask).ref.getDownloadURL();
-      } catch (e) {
-        print(e.toString());
-      }
 
 
 
@@ -214,7 +224,8 @@ class AuthServicesProvider extends ChangeNotifier {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => HomeScreen()),
+        MaterialPageRoute(builder: (context) => DashBoardScreen()),
+      //  MaterialPageRoute(builder: (context) => HomeScreen()),
       );
     } catch (e) {
       print(e.toString());
@@ -222,13 +233,10 @@ class AuthServicesProvider extends ChangeNotifier {
     }
   }
 
-  // } catch (e) {
-  //   print('Exception @createAccount: $e');
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //     SnackBar(content: Text(e.toString())),
-  //   );
-  //   notifyListeners();
-  // }
+
+
+
+
   Future<UserDataModel?> getUserData() async {
     final userDoc = await adduser.FirebaseFirestore.instance
         .collection('users')

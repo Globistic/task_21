@@ -1,8 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:task_21/screens/emergency_contact_screen.dart';
 import 'package:velocity_x/velocity_x.dart';
+
+import 'emergency_contact_screen.dart';
 
 class LendingAmountScreen extends StatefulWidget {
 
@@ -16,8 +17,8 @@ class LendingAmountScreen extends StatefulWidget {
   final  dob;
   final  currentAddress;
   final  persentAddress;
-  final  qualification;
-  final  noOfChildern;
+//  final  qualification;
+ // final  noOfChildern;
   final  mariedStatus;
   final  cnicFront;
   final  cnicBack;
@@ -35,8 +36,8 @@ class LendingAmountScreen extends StatefulWidget {
     required this.dob,
     required this.currentAddress,
     required this.persentAddress,
-    required this.qualification,
-    required this.noOfChildern,
+  //  required this.qualification,
+  //  required this.noOfChildern,
     required this.mariedStatus,
     required this.cnicFront,
     required this.cnicBack
@@ -231,8 +232,8 @@ class _LendingAmountScreenState extends State<LendingAmountScreen> {
                         dob: widget.dob,
                         persentAddress: widget.persentAddress,
                         mariedStatus: widget.mariedStatus,
-                        noOfChildern: widget.noOfChildern,
-                        qualification: widget.qualification,
+                       // noOfChildern: widget.noOfChildern,
+                      //  qualification: widget.qualification,
                         loanAmount: _selectedAmount.text,
                         cnicFront: widget.cnicFront,
                         cnicBack: widget.cnicBack,

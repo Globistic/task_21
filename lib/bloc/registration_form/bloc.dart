@@ -1,10 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:task_21/bloc/registration_form/state.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-
-
+import 'package:loan_app/bloc/registration_form/state.dart';
 import 'event.dart';
 
 class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {

@@ -20,8 +20,8 @@ class BillCardScreen extends StatefulWidget {
   final  dob;
   final  currentAddress;
   final  persentAddress;
-  final  qualification;
-  final  noOfChildern;
+ // final  qualification;
+//  final  noOfChildern;
   final  mariedStatus;
   final  cnicFront;
   final  cnicBack;
@@ -41,8 +41,8 @@ class BillCardScreen extends StatefulWidget {
     required this.dob,
     required this.currentAddress,
     required this.persentAddress,
-    required this.qualification,
-    required this.noOfChildern,
+   // required this./qualification,
+   // required this.noOfChildern,
     required this.mariedStatus,
     required this.cnicFront,
     required this.cnicBack,
@@ -144,7 +144,7 @@ class _BillCardScreenState extends State<BillCardScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.all(18.0),
-                child: Row(
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Column(
@@ -301,36 +301,47 @@ class _BillCardScreenState extends State<BillCardScreen> {
               SizedBox(height: 40),
               NeumorphicButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => EmergencyContactsScreen(
 
-                          name: widget.name,
-                          map_latitude: widget.map_latitude,
-                          map_longitude: widget.map_longitude ,
-                          ph_NoController: widget.ph_NoController,
-                          cnicExpiry: widget.cnicExpiry,
-                          cnicNo: widget.cnicNo,
-                          cnicName: widget.cnicName ,
-                          currentAddress: widget.currentAddress,
-                          dob: widget.dob,
-                          persentAddress: widget.persentAddress,
-                          mariedStatus: widget.mariedStatus,
-                          noOfChildern: widget.noOfChildern,
-                          qualification: widget.qualification,
-                          loanAmount: 55,
-                          cnicFront: widget.cnicFront,
-                          cnicBack: widget.cnicBack,
-                          bill_card_pic: bill_card_pic,
-                          selfi: widget.selfi,
-                          selfiWithCNIC: widget.selfiWithCNIC,
+    if (bill_card_pic == null) {
+    // Show an error message to the user if either photo is null
+    ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+    content: Text(
+    "Please take atlest 1 pictures from the following"),
+    ),
+    );
+    } else { Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => EmergencyContactsScreen(
+
+            name: widget.name,
+            map_latitude: widget.map_latitude,
+            map_longitude: widget.map_longitude ,
+            ph_NoController: widget.ph_NoController,
+            cnicExpiry: widget.cnicExpiry,
+            cnicNo: widget.cnicNo,
+            cnicName: widget.cnicName ,
+            currentAddress: widget.currentAddress,
+            dob: widget.dob,
+            persentAddress: widget.persentAddress,
+            mariedStatus: widget.mariedStatus,
+            //  noOfChildern: widget.noOfChildern,
+            //   qualification: widget.qualification,
+            loanAmount: 55,
+            cnicFront: widget.cnicFront,
+            cnicBack: widget.cnicBack,
+            bill_card_pic: bill_card_pic,
+            selfi: widget.selfi,
+            selfiWithCNIC: widget.selfiWithCNIC,
 
 
 
 
-                        )),
-                  );
+          )),
+    );}
+
+
                 },
                 padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                 margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),

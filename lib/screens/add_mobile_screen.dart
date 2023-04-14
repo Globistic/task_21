@@ -1,8 +1,7 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:task_21/screens/utils.dart';
-import 'package:velocity_x/velocity_x.dart';
+import 'package:loan_app/screens/utils.dart';
 
 import 'otp_screen.dart';
 
@@ -176,14 +175,7 @@ class _AddMobileNumberScreenState extends State<AddMobileNumberScreen> {
             NeumorphicButton(
               onPressed: () async {
 
-                ////remove it later
 
-
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //       builder: (context) => OTPScreen(verificationId: 52852 , phNo: phNo.text)),
-                // );
                 if (_formKey.currentState != null && _formKey.currentState!.validate()) {
                   _verifyPhoneNumber();
                   setState(() {

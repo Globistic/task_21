@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:task_21/screens/wallet_screen.dart';
+import 'package:loan_app/screens/wallet_screen.dart';
 
 import 'add_mobile_screen.dart';
 import 'loan_detail.dart';
@@ -136,6 +136,46 @@ class HomeScreen extends StatelessWidget {
                       ),
                       SizedBox(
                         height: 20,
+                      ),
+                      Neumorphic(
+                        // ...
+                        child: Center(
+                          child: Column(
+                            children: [
+                              // existing widgets...
+                              SizedBox(height: 20),
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.center,
+                              //   children: [
+                              //     IconButton(
+                              //       onPressed: () {
+                              //         // Open Facebook link
+                              //       },
+                              //       icon: Icon(Icons.facebook),
+                              //     ),
+                              //     IconButton(
+                              //       onPressed: () {
+                              //         // Open Twitter link
+                              //       },
+                              //       icon: Icon(Icons.facebook),
+                              //     ),
+                              //     IconButton(
+                              //       onPressed: () {
+                              //         // Open Instagram link
+                              //       },
+                              //       icon: Icon(Icons.facebook),
+                              //     ),
+                              //     IconButton(
+                              //       onPressed: () {
+                              //         // Open YouTube link
+                              //       },
+                              //       icon: Icon(Icons.facebook),
+                              //     ),
+                              //   ],
+                              // ),
+                            ],
+                          ),
+                        ),
                       ),
 
                     ]),

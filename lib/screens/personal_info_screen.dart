@@ -94,7 +94,7 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                   ),
                   Center(
                     child: const Text(
-                      'Marital Status',
+                      'Married Status',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 24,
@@ -329,8 +329,8 @@ class _PersonalInfoScreenState extends State<PersonalInfoScreen> {
                               dob: widget.dob,
                               persentAddress: widget.persentAddress,
                               mariedStatus:  marriedStatus.text,
-                              noOfChildern: noOfChildern.text,
-                              qualification: qualification.text,
+                        //      noOfChildern: noOfChildern.text,
+                        //      qualification: qualification.text,
                               cnicFront: widget.cnicFront,
                               cnicBack: widget.cnicBack,
                               selfi: widget.userSelfi,
