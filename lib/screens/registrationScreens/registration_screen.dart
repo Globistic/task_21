@@ -274,76 +274,68 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   SizedBox(height: 20),
                                 Row(
                                   children: [
-                                Expanded(
-                                child:  TextFormField(
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter your CNIC Expiry No';
-                                    }
+                                    Expanded(
+                                      child: TextFormField(
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please enter your CNIC Expiry No';
+                                          }
+                                          return null;
+                                        },
+                                        controller: cnicExpiry,
+                                        decoration: InputDecoration(
+                                          labelText: 'CNIC Exipry',
+                                          border: OutlineInputBorder(),
+                                        ),
+                                        onTap: () async {
+                                          // Show the date picker and wait for user to select a date
+                                          DateTime? selectedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime.now(),
+                                            lastDate: DateTime(2100),
+                                          );
+                                          if (selectedDate != null) {
+                                            // Format the date and set it in the controller
+                                            cnicExpiry.text = "${selectedDate.day.toString().padLeft(2, '0')}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.year.toString()}";
+                                          }
+                                        },
+                                      ),
+                                    ),
 
-                                    return null;
-                                  },
-                                  controller: cnicExpiry,
-                                  decoration: InputDecoration(
-                                    labelText: 'CNIC Exipry',
-
-                                    border: OutlineInputBorder(),
-                                  ),
-                                  onTap: () async {
-                                    // Show the date picker and wait for user to select a date
-                                    DateTime? selectedDate =
-                                    await showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime.now(),
-                                      lastDate: DateTime(2100),
-                                    );
-                                    if (selectedDate != null) {
-                                      // Set the date in the controller
-                                      cnicExpiry.text = selectedDate
-                                          .toIso8601String()
-                                          .split('T')[0];
-                                    }
-                                  },
-                                ),
-                              ),
-                              SizedBox(
+                                    SizedBox(
                                 width: 20,
                               ),
-                              Expanded(
-                                child:  TextFormField(
-                                  validator: (value) {
-                                    if (value == null || value.isEmpty) {
-                                      return 'Please enter your DOB';
-                                    }
-
-                                    return null;
-                                  },
-                                    controller: dob,
-                                    decoration: InputDecoration(
-                                      labelText: 'Date of Birth',
-
-                                      border: OutlineInputBorder(),
+                                    Expanded(
+                                      child: TextFormField(
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please enter your DOB';
+                                          }
+                                          return null;
+                                        },
+                                        controller: dob,
+                                        decoration: InputDecoration(
+                                          labelText: 'Date of Birth',
+                                          border: OutlineInputBorder(),
+                                        ),
+                                        onTap: () async {
+                                          // Show the date picker and wait for user to select a date
+                                          DateTime? selectedDate = await showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(1900, 1, 1),
+                                            lastDate: DateTime(2100),
+                                          );
+                                          if (selectedDate != null) {
+                                            // Format the date and set it in the controller
+                                            dob.text = "${selectedDate.day.toString().padLeft(2, '0')}-${selectedDate.month.toString().padLeft(2, '0')}-${selectedDate.year.toString()}";
+                                          }
+                                        },
+                                      ),
                                     ),
-                                    onTap: () async {
-                                      // Show the date picker and wait for user to select a date
-                                      DateTime? selectedDate =
-                                      await showDatePicker(
-                                        context: context,
-                                        initialDate: DateTime.now(),
-                                        firstDate: DateTime(1900, 1, 1),
-                                        lastDate: DateTime(2100),
-                                      );
-                                      if (selectedDate != null) {
-                                        // Set the date in the controller
-                                        dob.text = selectedDate
-                                            .toIso8601String()
-                                            .split('T')[0];
-                                      }
-                                    },
-                                  ),
-                                ),
-                                ],
+
+                                  ],
                               ),
 
                                   Center(

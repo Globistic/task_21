@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 import 'bill_card_screen.dart';
-import 'lending_amount_screen.dart';
+import '../lending_amount_screen.dart';
 
 class PersonalInfoScreen extends StatefulWidget {
   final map_longitude;

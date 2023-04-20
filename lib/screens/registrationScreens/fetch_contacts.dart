@@ -97,7 +97,10 @@ class _FlutterContactsExampleState extends State<FlutterContactsExample> {
   @override
   Widget build(BuildContext context) => MaterialApp(
       home: Scaffold(
-          appBar: AppBar(title: Text('flutter_contacts_example')),
+        backgroundColor: Colors.lightGreen,
+          appBar: AppBar(
+              backgroundColor: Colors.lightGreen,
+              title: Text('Select Contacts')),
           body: _body()));
 
   Widget _body() {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:loan_app/screens/name_screen.dart';
+import 'package:loan_app/screens/registrationScreens/name_screen.dart';
 import 'package:location/location.dart';
 
 class MapScreen extends StatefulWidget {
@@ -20,21 +20,23 @@ class _MapScreenState extends State<MapScreen> {
   Set<Marker> _markers = {};
   LocationData? currentLocation;
 
-  void s() {
-    _location.onLocationChanged.listen((LocationData locationData) {
-      if (_mapController != null) {
-        _mapController!.animateCamera(CameraUpdate.newCameraPosition(
-          CameraPosition(
-            target: LatLng(locationData.latitude!, locationData.longitude!),
-            zoom: 15,
-          ),
-        ));
-      }
-      setState(() {
-        currentLocation = locationData;
-      });
-    });
-  }
+  // void sc() {
+  //   _location.onLocationChanged.listen((LocationData locationData) {
+  //     if (_mapController != null) {
+  //       _mapController!.animateCamera(CameraUpdate.newCameraPosition(
+  //         CameraPosition(
+  //           target: LatLng(locationData.latitude!, locationData.longitude!),
+  //           zoom: 15,
+  //         ),
+  //       ));
+  //     }
+  //     setState(() {
+  //       currentLocation = locationData;
+  //     });
+  //   });
+  // }
+
+
 
   @override
   void initState() {
@@ -84,21 +86,36 @@ class _MapScreenState extends State<MapScreen> {
                     ),
                   ));
                 }
-                setState(() {
-                  currentLocation = locationData;
+                setState(()  {
+                  currentLocation =  locationData;
+
 
                 });
               });
 
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => NameScreen(
-                      ph_NoController: widget.ph_NoController,
-                      map_latitude: currentLocation?.latitude.toString(),
-                      map_longitude: currentLocation?.longitude.toString(),
-                    )),
-              );
+              Future.delayed(Duration(seconds: 4), () {
+                setState(()  {
+                  if(currentLocation == null ){
+                    return null;
+                  }
+                  else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              NameScreen(
+                                ph_NoController: widget.ph_NoController,
+                                map_latitude: currentLocation?.latitude
+                                    .toString(),
+                                map_longitude: currentLocation?.longitude
+                                    .toString(),
+                              )),
+                    );
+                  }
+                });
+              });
+
+
             },
             padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
             margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),

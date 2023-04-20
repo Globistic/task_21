@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:loan_app/screens/wallet_screen.dart';
 
-import 'add_mobile_screen.dart';
-import 'loan_detail.dart';
-import 'loan_status_screen.dart';
-import 'loan_terms_screen.dart';
-import 'main_profile.dart';
+import '../authScreen/add_mobile_screen.dart';
+import '../loan_detail.dart';
+import '../loan_status_screen.dart';
+import '../loan_terms_screen.dart';
+import '../main_profile.dart';
 
 class HomeScreen extends StatelessWidget {
 
@@ -129,7 +129,7 @@ class HomeScreen extends StatelessWidget {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => Loan_detail()),
+                                builder: (context) => LoanDetail()),
                           );
                         },
                         child: Text('Login Details'),

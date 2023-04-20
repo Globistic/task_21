@@ -8,7 +8,9 @@ class LoanStatusScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.lightGreen,
       appBar: AppBar(
+        backgroundColor: Colors.lightGreen,
         title: Text('Loan Status'),
       ),
       body: Container(

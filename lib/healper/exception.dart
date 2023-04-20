@@ -1,5 +1,5 @@
 
-import '../providers/auth_provider.dart';
+import '../providers/registration_provider.dart';
 
 class AuthExceptionHandler {
   static handleException(e) {

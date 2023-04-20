@@ -2,8 +2,11 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:loan_app/screens/utils.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-import 'otp_screen.dart';
+import '../adminScrrens/adminScreen.dart';
+import 'loginWithEmailScreen.dart';
+import '../registrationScreens/otp_screen.dart';
 
 class AddMobileNumberScreen extends StatefulWidget {
   const AddMobileNumberScreen({super.key});
@@ -20,14 +23,20 @@ class _AddMobileNumberScreenState extends State<AddMobileNumberScreen> {
   TextEditingController phNo = TextEditingController();
 
   bool loading = false;
+  bool isAdmin = false;
 
   final _formKey = GlobalKey<FormState>();
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
+
+
   void _verifyPhoneNumber() async {
+
+
     await _auth.verifyPhoneNumber(
       phoneNumber: '+${_selectedCountryCode}${phNo.text}',
+
       verificationCompleted: (_) async {
         setState(() {
           loading = false;
@@ -60,7 +69,7 @@ class _AddMobileNumberScreenState extends State<AddMobileNumberScreen> {
           loading = false;
         });
       },
-      timeout: Duration(seconds: 30),
+      timeout: Duration(seconds: 60),
     );
   }
   bool isValidNo(String value) {
@@ -200,8 +209,43 @@ class _AddMobileNumberScreenState extends State<AddMobileNumberScreen> {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-              ),
+
             ),
+            ),
+            // SizedBox(height: 20),
+            // TextButton(
+            //   onPressed: () async {
+            //     // Navigate to the login with email screen
+            //
+            //
+            //     // final SharedPreferences prefs = await SharedPreferences.getInstance();
+            //     // isAdmin = prefs.getBool('isAdmin') ?? false;
+            //     // if (isAdmin) {
+            //     //   Navigator.push(
+            //     //     context,
+            //     //     MaterialPageRoute(builder: (context) => AdminDashboardScreen()),
+            //     //   );
+            //     // } else {
+            //     //   Navigator.push(
+            //     //     context,
+            //     //     MaterialPageRoute(builder: (context) => LoginWithEmailScreen()),
+            //     //   );
+            //     // }
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(builder: (context) => LoginWithEmailScreen()),
+            //     );
+            //
+            //   },
+            //   child: const Text(
+            //     'Login with Email',
+            //     style: TextStyle(
+            //       fontSize: 18,
+            //       fontWeight: FontWeight.bold,
+            //       color: Colors.blue,
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

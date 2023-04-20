@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:loan_app/screens/registration_screen.dart';
+import 'package:loan_app/screens/registrationScreens/registration_screen.dart';
 
 class NameScreen extends StatefulWidget {
 
@@ -86,42 +86,7 @@ class _NameScreenState extends State<NameScreen> {
                         const SizedBox(height: 30),
                         Row(
                           children: [
-                            // Expanded(
-                            //   child: Neumorphic(
-                            //     margin: const EdgeInsets.only(right: 10),
-                            //     style: NeumorphicStyle(
-                            //       depth: 2,
-                            //       intensity: 0.8,
-                            //       shape: NeumorphicShape.flat,
-                            //     ),
-                            //     padding: const EdgeInsets.symmetric(
-                            //         vertical: 0.5, horizontal: 10),
-                            //     child:  TextFormField(controller: firstName,
-                            //       decoration: InputDecoration(
-                            //         hintText: 'First Name',
-                            //         border: InputBorder.none,
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
-                            // Expanded(
-                            //   child: Neumorphic(
-                            //     margin: const EdgeInsets.only(left: 10),
-                            //     style: NeumorphicStyle(
-                            //       depth: 2,
-                            //       intensity: 0.8,
-                            //       shape: NeumorphicShape.flat,
-                            //     ),
-                            //     padding: const EdgeInsets.symmetric(
-                            //         vertical: 0.5, horizontal: 10),
-                            //     child:  TextFormField(controller: lastName,
-                            //       decoration: InputDecoration(
-                            //         hintText: 'Last Name',
-                            //         border: InputBorder.none,
-                            //       ),
-                            //     ),
-                            //   ),
-                            // ),
+
                             Expanded(
                               child: Neumorphic(
                                 margin: const EdgeInsets.only(right: 10),

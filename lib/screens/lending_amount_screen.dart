@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:velocity_x/velocity_x.dart';
 
-import 'emergency_contact_screen.dart';
+import 'registrationScreens/emergency_contact_screen.dart';
 
 class LendingAmountScreen extends StatefulWidget {
 

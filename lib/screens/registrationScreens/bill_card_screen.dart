@@ -144,7 +144,7 @@ class _BillCardScreenState extends State<BillCardScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.all(18.0),
-                child: Column(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Column(
@@ -172,7 +172,7 @@ class _BillCardScreenState extends State<BillCardScreen> {
                         ),
                         const SizedBox(height: 5),
                         const Text(
-                          'Business Card',
+                          'Business Card !',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
