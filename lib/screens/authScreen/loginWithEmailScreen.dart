@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:loan_app/screens/adminScrrens/admin_home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../adminScrrens/adminScreen.dart';
@@ -37,7 +38,7 @@ class _LoginWithEmailScreenState extends State<LoginWithEmailScreen> {
         await prefs.setBool('isAdmin', true);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => AdminDashboardScreen()),
+          MaterialPageRoute(builder: (context) => AdminHome()),
         );
       } on FirebaseAuthException catch (e) {
         setState(() {

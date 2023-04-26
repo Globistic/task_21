@@ -74,6 +74,7 @@ class UserDataModel {
 }
 
 class GetAllUserDataModel {
+  final String? userUID;
   final String? phoneNo;
   final String? name;
   final String? map_lat;
@@ -90,6 +91,8 @@ class GetAllUserDataModel {
   final String? loanAmount;
   final String? emergency_family_name;
   final String? emergency_famly_number;
+  final String? emergency_friend_name;
+  final String? emergency_friend_number;
   final String? relationShip;
   final String? cnicFrontUrl;
   final String? cnicBackUrl;
@@ -98,6 +101,7 @@ class GetAllUserDataModel {
   final String? selfi_withCNICUrl;
 
   GetAllUserDataModel({
+    this.userUID,
     this.phoneNo,
     this.name,
     this.map_lat,
@@ -114,6 +118,8 @@ class GetAllUserDataModel {
     this.loanAmount,
     this.emergency_family_name,
     this.emergency_famly_number,
+    this.emergency_friend_number,
+    this.emergency_friend_name,
     this.relationShip,
     this.cnicFrontUrl,
     this.cnicBackUrl,

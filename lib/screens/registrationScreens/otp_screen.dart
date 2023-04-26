@@ -140,15 +140,19 @@ class _OTPScreenState extends State<OTPScreen> {
                         ),
                         depth: 1,
                       ),
-                      child: Center(
-                        child: Text(
-                          loading ? 'Loading...' : 'Submit',
-                          style: const TextStyle(
+                      child: loading ?   Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text('Loading . . . '),
+                          SizedBox(width: 5,),
+                          CircularProgressIndicator(),
+                        ],
+                      ) : Text('Submit',
+                          style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
+                          )),
                     ),
                   ],
                 ),

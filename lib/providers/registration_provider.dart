@@ -196,6 +196,7 @@ class RegistrationServicesProvider extends ChangeNotifier {
           .collection('users')
           .doc(_firebaseAuth.currentUser?.uid)
           .set({
+        'userUID': _firebaseAuth.currentUser?.uid,
         'phoneNo': phNo,
         'name': name,
         'map_lat': map_lat,
@@ -217,9 +218,17 @@ class RegistrationServicesProvider extends ChangeNotifier {
         "billCardUrl": billCardUrl,
         'emergency_family_name': emergency_family_name,
         'emergency_famly_number': emergency_famly_number,
-        // 'emergency_friend_number': emergency_friend_number,
-        // 'emergency_friend_number': emergency_friend_number,
+         'emergency_friend_name': emergency_friend_name,
+         'emergency_friend_number': emergency_friend_number,
         'relationShip': relationShip,
+      });
+
+      final addStatus = await adduser.FirebaseFirestore.instance
+          .collection('userStatus')
+          .doc(_firebaseAuth.currentUser?.uid)
+          .set({
+        'userUID': _firebaseAuth.currentUser?.uid,
+        'userStatus': "In Review",
       });
 
 //after the login REST api call && response code ==200

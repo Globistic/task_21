@@ -9,57 +9,50 @@ import 'package:velocity_x/velocity_x.dart';
 import 'emergency_contact_screen.dart';
 
 class BillCardScreen extends StatefulWidget {
-
-  final  map_longitude;
-  final  map_latitude;
-  final  ph_NoController;
-  final  name;
-  final  cnicName;
-  final  cnicNo;
-  final  cnicExpiry;
-  final  dob;
-  final  currentAddress;
-  final  persentAddress;
- // final  qualification;
+  final map_longitude;
+  final map_latitude;
+  final ph_NoController;
+  final name;
+  final cnicName;
+  final cnicNo;
+  final cnicExpiry;
+  final dob;
+  final currentAddress;
+  final persentAddress;
+  // final  qualification;
 //  final  noOfChildern;
-  final  mariedStatus;
-  final  cnicFront;
-  final  cnicBack;
-  final  selfi;
-  final  selfiWithCNIC;
+  final mariedStatus;
+  final cnicFront;
+  final cnicBack;
+  final selfi;
+  final selfiWithCNIC;
 
-
-  const BillCardScreen({
-    Key? key,
-    required this.map_latitude,
-    required this.name,
-    required this.ph_NoController,
-    required this.map_longitude,
-    required this.cnicName,
-    required this.cnicNo,
-    required this.cnicExpiry,
-    required this.dob,
-    required this.currentAddress,
-    required this.persentAddress,
-   // required this./qualification,
-   // required this.noOfChildern,
-    required this.mariedStatus,
-    required this.cnicFront,
-    required this.cnicBack,
-    required this.selfi,
-    required this.selfiWithCNIC
-  }) : super(key: key);
-
-
-
+  const BillCardScreen(
+      {Key? key,
+      required this.map_latitude,
+      required this.name,
+      required this.ph_NoController,
+      required this.map_longitude,
+      required this.cnicName,
+      required this.cnicNo,
+      required this.cnicExpiry,
+      required this.dob,
+      required this.currentAddress,
+      required this.persentAddress,
+      // required this./qualification,
+      // required this.noOfChildern,
+      required this.mariedStatus,
+      required this.cnicFront,
+      required this.cnicBack,
+      required this.selfi,
+      required this.selfiWithCNIC})
+      : super(key: key);
 
   @override
   _BillCardScreenState createState() => _BillCardScreenState();
 }
 
 class _BillCardScreenState extends State<BillCardScreen> {
-
-
   File? bill_card_pic;
   bool showSpiner = false;
 
@@ -79,10 +72,10 @@ class _BillCardScreenState extends State<BillCardScreen> {
     }
 
     final Reference storageRef =
-    FirebaseStorage.instance.ref().child('images/${DateTime.now()}.png');
+        FirebaseStorage.instance.ref().child('images/${DateTime.now()}.png');
 
     final TaskSnapshot taskSnapshot =
-    await storageRef.putFile(File(pickedFile!.path));
+        await storageRef.putFile(File(pickedFile!.path));
 
     final String downloadUrl = await storageRef.getDownloadURL();
 
@@ -125,8 +118,8 @@ class _BillCardScreenState extends State<BillCardScreen> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                      ),)
-
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -165,7 +158,7 @@ class _BillCardScreenState extends State<BillCardScreen> {
                             ),
                             padding: const EdgeInsets.all(10),
                             child: Icon(Icons.person,
-                                color:  selected == 'Business Card'
+                                color: selected == 'Business Card'
                                     ? Colors.blue
                                     : Colors.grey),
                           ),
@@ -197,7 +190,7 @@ class _BillCardScreenState extends State<BillCardScreen> {
                             ),
                             padding: const EdgeInsets.all(10),
                             child: Icon(Icons.people,
-                                color:  selected == 'Student Card'
+                                color: selected == 'Student Card'
                                     ? Colors.blue
                                     : Colors.grey),
                           ),
@@ -229,7 +222,7 @@ class _BillCardScreenState extends State<BillCardScreen> {
                             ),
                             padding: const EdgeInsets.all(10),
                             child: Icon(Icons.remove_circle,
-                                color:  selected == 'Utility Bill'
+                                color: selected == 'Utility Bill'
                                     ? Colors.blue
                                     : Colors.grey),
                           ),
@@ -244,104 +237,101 @@ class _BillCardScreenState extends State<BillCardScreen> {
                         ),
                       ],
                     ),
-
                   ],
                 ),
               ),
-            selected.isNotEmptyAndNotNull ?
-            Padding(
-              padding: const EdgeInsets.all(18.0),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                     Text(
-                      'Take Photo of ${selected}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    NeumorphicButton(
-                      onPressed: () {
-                        _getImageFromCameraOrGallery(true);
-                      },
-                      padding: const EdgeInsets.all(20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children:  [
-                          Icon(
-                            Icons.camera_alt_outlined,
-                            color: Colors.white,
-                          ),
-                          SizedBox(width: 10),
+              selected.isNotEmptyAndNotNull
+                  ? Padding(
+                      padding: const EdgeInsets.all(18.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                           Text(
-                            'Take Photo Of ${selected}',
+                            'Take Photo of ${selected}',
                             style: TextStyle(
-                              color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: 16,
                             ),
                           ),
+                          const SizedBox(height: 10),
+                          NeumorphicButton(
+                            onPressed: () {
+                              _getImageFromCameraOrGallery(true);
+                            },
+                            padding: const EdgeInsets.all(20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.camera_alt_outlined,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(width: 10),
+                                Text(
+                                  'Take Photo Of ${selected}',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          if (bill_card_pic != null)
+                            Padding(
+                              padding: EdgeInsets.all(20),
+                              child: Center(
+                                child: Image.file(
+                                  bill_card_pic!,
+                                  height: 200,
+                                  width: 200,
+                                ),
+                              ),
+                            ),
+                          const SizedBox(height: 20),
                         ],
                       ),
-                    ),
-                    if (bill_card_pic != null)
-                      Image.file(
-                        bill_card_pic!,
-                        height: 200,
-                        width: 200,
-                      ),
-                    const SizedBox(height: 20),
-
-                  ],
-                ),
-            ) : SizedBox(),
-
-              SizedBox(height: 40),
+                    )
+                  : SizedBox(),
+              SizedBox(height: 20),
               NeumorphicButton(
                 onPressed: () {
-
-    if (bill_card_pic == null) {
-    // Show an error message to the user if either photo is null
-    ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-    content: Text(
-    "Please take atlest 1 pictures from the following"),
-    ),
-    );
-    } else { Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => EmergencyContactsScreen(
-
-            name: widget.name,
-            map_latitude: widget.map_latitude,
-            map_longitude: widget.map_longitude ,
-            ph_NoController: widget.ph_NoController,
-            cnicExpiry: widget.cnicExpiry,
-            cnicNo: widget.cnicNo,
-            cnicName: widget.cnicName ,
-            currentAddress: widget.currentAddress,
-            dob: widget.dob,
-            persentAddress: widget.persentAddress,
-            mariedStatus: widget.mariedStatus,
-            //  noOfChildern: widget.noOfChildern,
-            //   qualification: widget.qualification,
-            loanAmount: 55,
-            cnicFront: widget.cnicFront,
-            cnicBack: widget.cnicBack,
-            bill_card_pic: bill_card_pic,
-            selfi: widget.selfi,
-            selfiWithCNIC: widget.selfiWithCNIC,
-
-
-
-
-          )),
-    );}
-
-
+                  if (bill_card_pic == null) {
+                    // Show an error message to the user if either photo is null
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                            "Please take atlest 1 pictures from the following"),
+                      ),
+                    );
+                  } else {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EmergencyContactsScreen(
+                                name: widget.name,
+                                map_latitude: widget.map_latitude,
+                                map_longitude: widget.map_longitude,
+                                ph_NoController: widget.ph_NoController,
+                                cnicExpiry: widget.cnicExpiry,
+                                cnicNo: widget.cnicNo,
+                                cnicName: widget.cnicName,
+                                currentAddress: widget.currentAddress,
+                                dob: widget.dob,
+                                persentAddress: widget.persentAddress,
+                                mariedStatus: widget.mariedStatus,
+                                //  noOfChildern: widget.noOfChildern,
+                                //   qualification: widget.qualification,
+                                loanAmount: 55,
+                                cnicFront: widget.cnicFront,
+                                cnicBack: widget.cnicBack,
+                                bill_card_pic: bill_card_pic,
+                                selfi: widget.selfi,
+                                selfiWithCNIC: widget.selfiWithCNIC,
+                              )),
+                    );
+                  }
                 },
                 padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                 margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),

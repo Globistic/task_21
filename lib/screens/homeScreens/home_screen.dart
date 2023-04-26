@@ -7,7 +7,7 @@ import 'package:loan_app/screens/wallet_screen.dart';
 import '../authScreen/add_mobile_screen.dart';
 import '../loan_detail.dart';
 import '../loan_status_screen.dart';
-import '../loan_terms_screen.dart';
+import '../registrationScreens/loan_terms_screen.dart';
 import '../main_profile.dart';
 
 class HomeScreen extends StatelessWidget {

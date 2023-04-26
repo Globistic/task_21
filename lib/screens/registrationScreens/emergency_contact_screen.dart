@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_contacts/flutter_contacts.dart';
+import 'package:velocity_x/velocity_x.dart';
 import '../../bloc/registration_form/bloc.dart';
 import '../../bloc/registration_form/event.dart';
 import '../../providers/registration_provider.dart';
@@ -75,12 +75,8 @@ class EmergencyContactsScreen extends StatefulWidget {
 }
 
 class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
-  List<Contact> _contacts = [];
-  List<Contact> _selectedContacts = [];
-  bool _isSubmitting = false;
-
-  // SignUpProvider addata = SignUpProvider();
-  RegistrationServicesProvider registrationServicesProvider = RegistrationServicesProvider();
+  RegistrationServicesProvider registrationServicesProvider =
+      RegistrationServicesProvider();
 
   TextEditingController relationShipWithFamilyMember = TextEditingController();
 
@@ -100,6 +96,7 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
       print(family_member_number.toString());
       print(family_member_name.toString());
     }
+
   }
 
   getFriendNo() {
@@ -111,6 +108,7 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
       print(friend_number.toString());
       print(friend_name.toString());
     }
+
   }
 
   String? family_member_name;
@@ -126,7 +124,7 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
     });
 
     // Simulate a 30 second delay
-    Future.delayed(Duration(seconds: 50), () {
+    Future.delayed(Duration(seconds: 60), () {
       setState(() {
         _isLoading = false;
       });
@@ -367,109 +365,121 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                         ],
                       ),
                 SizedBox(height: 25),
-                // Text(
-                //   'Friend',
-                //   style: TextStyle(fontSize: 18),
-                // ),
-                // SizedBox(height: 10),
-                // Row(
-                //   children: [
-                //     Expanded(
-                //       child:
-                //       NeumorphicButton(
-                //         onPressed: () {
-                //           // _launchContacts();
-                //           Navigator.push(
-                //             context,
-                //             MaterialPageRoute(
-                //                 builder: (context) => FlutterContactsExample(
-                //                   ph_NoController: widget.ph_NoController,
-                //                   name: widget.name,
-                //                   map_latitude: widget.map_latitude,
-                //                   map_longitude: widget.map_longitude,
-                //                   cnicName: widget.cnicName,
-                //                   cnicNo: widget.cnicNo,
-                //                   cnicExpiry: widget.cnicExpiry,
-                //                   dob: widget.dob,
-                //                   currentAddress: widget.currentAddress,
-                //                   persentAddress: widget.persentAddress,
-                //                   mariedStatus: widget.mariedStatus,
-                //                  // noOfChildern: widget.noOfChildern,
-                //                 //  qualification: widget.qualification,
-                //                   bill_card_pic: widget.bill_card_pic,
-                //                   selfi: widget.selfi,
-                //                   selfiWithCNIC: widget.selfiWithCNIC,
-                //                   loanAmount: '2500',
-                //                   cnicBack: widget.cnicBack,
-                //                   cnicFront: widget.cnicFront,
-                //                   relationShip: relationShipWithFamilyMember.text,
-                //                   emergency_famly_number: family_member_number.toString(),
-                //                   emergency_family_name: family_member_name.toString(),
-                //                     check: false, bool : true,
-                //                   emergency_friend_number: friend_number.toString(),
-                //                   emergency_friend_name: friend_name.toString(),
-                //
-                //                 )),
-                //           );
-                //         },
-                //         padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                //         margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                //         style: NeumorphicStyle(
-                //           boxShape: NeumorphicBoxShape.roundRect(
-                //             BorderRadius.circular(1),
-                //           ),
-                //           depth: 1,
-                //         ),
-                //         child: Center(
-                //           child: Text(
-                //             'Add Contact',
-                //             style: TextStyle(
-                //               fontSize: 14,
-                //               fontWeight: FontWeight.w600,
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                // SizedBox(height: 15),
-                // widget.bool == null || false ? SizedBox():  Row(
-                //   children: [
-                //     Expanded(
-                //       flex: 5,
-                //       child: Neumorphic(
-                //         margin: const EdgeInsets.all(10),
-                //         style: NeumorphicStyle(
-                //           depth: 2,
-                //           intensity: 0.8,
-                //           shape: NeumorphicShape.flat,
-                //         ),
-                //         padding: const EdgeInsets.symmetric(
-                //             vertical: 0.5, horizontal: 10),
-                //         child: Padding(
-                //           padding: EdgeInsets.all(15),
-                //           child: Column(
-                //             children: [
-                //               Row(children: [
-                //                 Text('Name:   '),
-                //                 Text('${friend_name}'),
-                //               ],),
-                //               SizedBox(height: 20,),
-                //               Row(children: [
-                //                 Text('Number:   '),
-                //                 Text('${friend_number}'),
-                //               ],),
-                //               SizedBox(width: 80),
-                //             ],
-                //           ),
-                //         ),
-                //
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                // SizedBox(height: 32),
+                Text(
+                  'Friend',
+                  style: TextStyle(fontSize: 18),
+                ),
+                SizedBox(height: 10),
+                Row(
+                  children: [
+                    Expanded(
+                      child: NeumorphicButton(
+                        onPressed: () {
+                          // _launchContacts();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => FlutterContactsExample(
+                                      ph_NoController: widget.ph_NoController,
+                                      name: widget.name,
+                                      map_latitude: widget.map_latitude,
+                                      map_longitude: widget.map_longitude,
+                                      cnicName: widget.cnicName,
+                                      cnicNo: widget.cnicNo,
+                                      cnicExpiry: widget.cnicExpiry,
+                                      dob: widget.dob,
+                                      currentAddress: widget.currentAddress,
+                                      persentAddress: widget.persentAddress,
+                                      mariedStatus: widget.mariedStatus,
+                                      // noOfChildern: widget.noOfChildern,
+                                      //  qualification: widget.qualification,
+                                      bill_card_pic: widget.bill_card_pic,
+                                      selfi: widget.selfi,
+                                      selfiWithCNIC: widget.selfiWithCNIC,
+                                      loanAmount: '2500',
+                                      cnicBack: widget.cnicBack,
+                                      cnicFront: widget.cnicFront,
+                                      relationShip:
+                                          relationShipWithFamilyMember.text,
+                                      emergency_famly_number:
+                                          family_member_number.toString(),
+                                      emergency_family_name:
+                                          family_member_name.toString(),
+                                      check: false, bool: true,
+                                      emergency_friend_number:
+                                          friend_number.toString(),
+                                      emergency_friend_name:
+                                          friend_name.toString(),
+                                    )),
+                          );
+                        },
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+                        margin:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                        style: NeumorphicStyle(
+                          boxShape: NeumorphicBoxShape.roundRect(
+                            BorderRadius.circular(1),
+                          ),
+                          depth: 1,
+                        ),
+                        child: Center(
+                          child: Text(
+                            'Add Contact',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 15),
+                widget.bool == null || false
+                    ? SizedBox()
+                    : Row(
+                        children: [
+                          Expanded(
+                            flex: 5,
+                            child: Neumorphic(
+                              margin: const EdgeInsets.all(10),
+                              style: NeumorphicStyle(
+                                depth: 2,
+                                intensity: 0.8,
+                                shape: NeumorphicShape.flat,
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 0.5, horizontal: 10),
+                              child: Padding(
+                                padding: EdgeInsets.all(15),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text('Name:   '),
+                                        Text('${friend_name}'),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text('Number:   '),
+                                        Text('${friend_number}'),
+                                      ],
+                                    ),
+                                    SizedBox(width: 80),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                SizedBox(height: 32),
                 NeumorphicButton(
                   onPressed: () async {
                     if (family_member_number == null ||
@@ -482,7 +492,8 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                       );
                     } else {
                       _startLoading();
-                      registrationServicesProvider.createUserWithEmailAndPassword(
+                      registrationServicesProvider
+                          .createUserWithEmailAndPassword(
                         context,
                         phNo: widget.ph_NoController,
                         name: widget.name,
@@ -511,10 +522,7 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                       );
                     }
 
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) => HomeScreen()),
-                    // );
+
                   },
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                   margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -524,17 +532,19 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                     ),
                     depth: 1,
                   ),
-                  child: Center(
-                    child: _isLoading
-                        ? CircularProgressIndicator()
-                        : Text(
-                            'Submit',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                  ),
+                  child: _isLoading ?   Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text('Loading . . . '),
+                      SizedBox(width: 5,),
+                      CircularProgressIndicator(),
+                    ],
+                  ) : Text('Continue',
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w600,
+                      )),
                 ),
               ],
             ),

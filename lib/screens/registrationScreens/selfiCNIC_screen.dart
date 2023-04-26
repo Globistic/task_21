@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'registrationScreens/bill_card_screen.dart';
+import 'bill_card_screen.dart';
 
 class SelfiCNICScreen extends StatefulWidget {
   final map_longitude;
@@ -174,10 +174,15 @@ class _SelfiCNICScreenState extends State<SelfiCNICScreen> {
                                   ),
                                 ),
                                 if (userSelfi != null)
-                                  Image.file(
-                                    userSelfi!,
-                                    height: 200,
-                                    width: 200,
+                                  Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Center(
+                                      child: Image.file(
+                                        userSelfi!,
+                                        height: 200,
+                                        width: 200,
+                                      ),
+                                    ),
                                   ),
                                 const SizedBox(height: 20),
                                 const Text(
@@ -213,10 +218,15 @@ class _SelfiCNICScreenState extends State<SelfiCNICScreen> {
                                   ),
                                 ),
                                 if (userSelfiWithCnic != null)
-                                  Image.file(
-                                    userSelfiWithCnic!,
-                                    height: 200,
-                                    width: 200,
+                                  Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Center(
+                                      child: Image.file(
+                                        userSelfiWithCnic!,
+                                        height: 200,
+                                        width: 200,
+                                      ),
+                                    ),
                                   ),
                               ],
                             ),

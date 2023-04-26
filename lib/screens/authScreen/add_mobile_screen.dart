@@ -1,5 +1,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:loan_app/screens/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,11 +30,18 @@ class _AddMobileNumberScreenState extends State<AddMobileNumberScreen> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-
+    @override
+  void initState() {
+      initialization();
+    super.initState();
+  }
 
   void _verifyPhoneNumber() async {
+    if (_formKey.currentState != null && _formKey.currentState!.validate()) {
 
-
+      setState(() {
+        loading = true;
+      });
     await _auth.verifyPhoneNumber(
       phoneNumber: '+${_selectedCountryCode}${phNo.text}',
 
@@ -56,7 +64,8 @@ class _AddMobileNumberScreenState extends State<AddMobileNumberScreen> {
         Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => OTPScreen(verificationId: verificationId , phNo: phNo.text)),
+              builder: (context) =>
+                  OTPScreen(verificationId: verificationId, phNo: phNo.text)),
         );
         setState(() {
           loading = false;
@@ -71,6 +80,7 @@ class _AddMobileNumberScreenState extends State<AddMobileNumberScreen> {
       },
       timeout: Duration(seconds: 60),
     );
+  }
   }
   bool isValidNo(String value) {
     if (value == null || value.isEmpty) {
@@ -88,6 +98,16 @@ class _AddMobileNumberScreenState extends State<AddMobileNumberScreen> {
     return true;
   }
 
+  void initialization() async {
+    debugPrint('ready in 3...');
+    await Future.delayed(const Duration(seconds: 1));
+    debugPrint('ready in 2...');
+    await Future.delayed(const Duration(seconds: 1));
+    debugPrint('ready in 1...');
+    await Future.delayed(const Duration(seconds: 1));
+    debugPrint('go!------');
+    FlutterNativeSplash.remove();
+  }
 
 
   @override
@@ -185,13 +205,10 @@ class _AddMobileNumberScreenState extends State<AddMobileNumberScreen> {
               onPressed: () async {
 
 
-                if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-                  _verifyPhoneNumber();
-                  setState(() {
-                    loading = true;
 
-                  });
-                }
+                  loading ? null : _verifyPhoneNumber();
+
+
               },
               padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
               margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -201,16 +218,20 @@ class _AddMobileNumberScreenState extends State<AddMobileNumberScreen> {
                 ),
                 depth: 1,
               ),
-              child: Center(
-                child: Text(
-                  loading ? 'Loading....' : 'Continue',
+              child: loading ?   Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text('Loading . . . '),
+                  SizedBox(width: 5,),
+                  CircularProgressIndicator(),
+                ],
+              ) : Text('Continue',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w600,
-                  ),
-                ),
+                  )),
 
-            ),
             ),
             // SizedBox(height: 20),
             // TextButton(

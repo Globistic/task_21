@@ -5,7 +5,7 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import 'package:loan_app/screens/selfiCNIC_screen.dart';
+import 'package:loan_app/screens/registrationScreens/selfiCNIC_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
   final map_longitude;
@@ -165,10 +165,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   ),
                                 ),
                                 if (cnicFrontPhoto != null)
-                                  Image.file(
-                                    cnicFrontPhoto!,
-                                    height: 200,
-                                    width: 200,
+                                  Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Center(
+                                      child: Image.file(
+                                        cnicFrontPhoto!,
+                                        height: 200,
+                                        width: 300,
+                                      ),
+                                    ),
                                   ),
                                 const SizedBox(height: 20),
                                 const Text(
@@ -204,10 +209,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   ),
                                 ),
                                 if (cnicBackPhoto != null)
-                                  Image.file(
-                                    cnicBackPhoto!,
-                                    height: 200,
-                                    width: 200,
+                                  Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Center(
+                                      child: Image.file(
+                                        cnicBackPhoto!,
+                                        height: 200,
+                                        width: 200,
+                                      ),
+                                    ),
                                   ),
                               ],
                             ),

@@ -11,19 +11,19 @@ import 'package:loan_app/screens/homeScreens/home_screen.dart';
 import 'package:loan_app/screens/homeScreens/my_account.dart';
 import 'package:loan_app/screens/main_profile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 void main() async {
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-
-
-
+  WidgetsBinding widgetsFlutterBinding =
+  WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsFlutterBinding);
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   runApp(const MyApp());
 }
+
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -69,7 +69,7 @@ class _MyAppState extends State<MyApp> {
       primarySwatch: Colors.blueGrey,
     );
     Widget initialScreen = AddMobileNumberScreen();
-     if (isUser == true) {
+    if (isUser == true) {
       // If the user is a regular user, show the loan screen
       initialScreen = ProfileScreen();
     } else {
@@ -82,7 +82,11 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData.from(colorScheme: colorScheme),
       color: Colors.lightGreen,
       home: Scaffold(
-        body: initialScreen,
+        body:
+        //LoginWithEmailScreen(),
+
+          initialScreen,
+
         // _children[_currentIndex],
         // bottomNavigationBar: BottomNavigationBar(
         //   backgroundColor: Colors.lightGreenAccent,
@@ -121,7 +125,6 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
 
 // class MyApp extends StatefulWidget {
 //   const MyApp({Key? key}) : super(key: key);
