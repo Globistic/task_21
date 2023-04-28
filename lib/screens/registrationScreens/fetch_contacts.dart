@@ -29,8 +29,8 @@ class FlutterContactsExample extends StatefulWidget {
   final selfi;
   final selfiWithCNIC;
   final contact;
-  final check;
-  final bool;
+  final family;
+  final friend;
   final emergency_family_name;
   final emergency_famly_number;
   final emergency_friend_name;
@@ -63,8 +63,8 @@ class FlutterContactsExample extends StatefulWidget {
     this.selfi,
     this.selfiWithCNIC,
     this.contact,
-    this.check,
-    this.bool,
+    this.family,
+    this.friend,
     this.emergency_friend_name,
     this.emergency_friend_number,
 
@@ -118,8 +118,6 @@ class _FlutterContactsExampleState extends State<FlutterContactsExample> {
 
 
                     ph_NoController: widget.ph_NoController,
-                    //phNo: '123',
-                    //  phNo: widget.ph_NoController?.text ?? '',
                     name: widget.name,
                     map_latitude: widget.map_latitude,
                     map_longitude: widget.map_longitude,
@@ -130,8 +128,6 @@ class _FlutterContactsExampleState extends State<FlutterContactsExample> {
                     currentAddress: widget.currentAddress,
                     persentAddress: widget.persentAddress,
                     mariedStatus: widget.mariedStatus,
-               //     noOfChildern: widget.noOfChildern,
-               //     qualification: widget.qualification,
                     bill_card_pic: widget.bill_card_pic,
                     selfi: widget.selfi,
                     selfiWithCNIC: widget.selfiWithCNIC,
@@ -144,40 +140,9 @@ class _FlutterContactsExampleState extends State<FlutterContactsExample> {
                     emergency_friend_number: widget.emergency_friend_number.toString(),
                     emergency_friend_name: widget.emergency_friend_name.toString(),
                     contact: fullContact,
-                    check: widget.check == true ? true : false,
-                    bool : widget.bool == true ? true : false,
+                    family: widget.family == true ? true : false,
+                    friend : widget.friend == true ? true : false,
                   )));
             }));
   }
 }
-
-// class ContactPage extends StatefulWidget {
-//
-//   final Contact contact;
-//
-//   ContactPage(this.contact);
-//
-//   @override
-//   State<ContactPage> createState() => _ContactPageState();
-// }
-//
-// class _ContactPageState extends State<ContactPage> {
-//
-//
-//
-//
-//
-//   @override
-//   Widget build(BuildContext context) => Scaffold(
-//       appBar: AppBar(title: Text(widget.contact.displayName)),
-//       body: Column(children: [
-//         Text('First name: ${widget.contact.name.first}'
-//
-//         ),
-//         Text('Last name: ${widget.contact.name.last}'),
-//         Text(
-//             'Phone number: ${widget.contact.phones.isNotEmpty ? widget.contact.phones.first.number : '(none)'}'),
-//         Text(
-//             'Email address: ${widget.contact.emails.isNotEmpty ? widget.contact.emails.first.address : '(none)'}'),
-//       ]));
-// }

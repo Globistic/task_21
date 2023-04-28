@@ -26,6 +26,11 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+
+
+
+
+
   TextEditingController cnicName = TextEditingController();
   TextEditingController cnicNo = TextEditingController();
   TextEditingController cnicExpiry = TextEditingController();
@@ -67,6 +72,20 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    cnicNo.addListener(() {
+      final text = cnicNo.text;
+      if (text.length == 5 || text.length == 13) {
+        cnicNo.text = '$text-';
+        cnicNo.selection = TextSelection.fromPosition(
+          TextPosition(offset: cnicNo.text.length),
+        );
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
@@ -78,35 +97,43 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                flex: 7,
-                                child: LinearProgressIndicator(
-                                  value: 0.2, // 20% as decimal value
-                                  backgroundColor: Colors.grey[300],
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      Colors.blue),
-                                  semanticsLabel: 'Linear progress indicator',
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    '20%',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.black87,
-                                      fontWeight: FontWeight.bold,
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: Column(
+                              children: [
+                                Text('You Have Completed Your Profile'),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 7,
+                                      child: LinearProgressIndicator(
+                                        value: 0.2, // 90% as decimal value
+                                        backgroundColor: Colors.grey[300],
+                                        valueColor:
+                                        AlwaysStoppedAnimation<Color>(Colors.blue),
+                                        semanticsLabel: 'Linear progress indicator',
+                                      ),
                                     ),
-                                  ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          '20%',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.black87,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
-                              )
-                            ],
+                              ],
+                            ),
                           ),
-                          const SizedBox(height: 40),
+                          const SizedBox(height: 10),
                           const Text(
                             'Registration Form',
                             style: TextStyle(
@@ -237,11 +264,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   SizedBox(
                                     height: 10,
                                   ),
+
                                   TextFormField(
                                     controller: cnicName,
                                     decoration: InputDecoration(
                                       focusColor: Colors.black,
                                       labelText: 'CNIC Name',
+                                      hintText: 'Your Name On CNIC',
                                       border: OutlineInputBorder(
                                         borderSide: BorderSide(),
                                       ),
@@ -258,11 +287,34 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   ),
 
                                   SizedBox(height: 20),
+                                  // TextFormField(
+                                  //   keyboardType: TextInputType.text,
+                                  //   controller: cnicNo,
+                                  //   decoration: InputDecoration(
+                                  //     hintText: '12101-6922562-1',
+                                  //     labelText: 'Your CNIC Number',
+                                  //     border: OutlineInputBorder(),
+                                  //   ),
+                                  //   validator: (value) {
+                                  //     if (value == null || value.isEmpty) {
+                                  //       return 'Please enter your CNIC Number';
+                                  //     }
+                                  //     if (value.length != 15) {
+                                  //       return 'CNIC Number must be 15 characters long';
+                                  //     }
+                                  //     if (!RegExp(r'^\d{5}-\d{7}-\d$')
+                                  //         .hasMatch(value)) {
+                                  //       return 'CNIC Number must be in the format 12345-1234567-1';
+                                  //     }
+                                  //     return null;
+                                  //   },
+                                  // ),
+
                                   TextFormField(
                                     keyboardType: TextInputType.text,
                                     controller: cnicNo,
                                     decoration: InputDecoration(
-                                      hintText: '12101-6922562-1',
+                                      hintText: '12345-6789101-1',
                                       labelText: 'CNIC Number',
                                       border: OutlineInputBorder(),
                                     ),
@@ -273,15 +325,23 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       if (value.length != 15) {
                                         return 'CNIC Number must be 15 characters long';
                                       }
-                                      if (!RegExp(r'^\d{5}-\d{7}-\d$')
-                                          .hasMatch(value)) {
+                                      if (!RegExp(r'^\d{5}-\d{7}-\d$').hasMatch(value)) {
                                         return 'CNIC Number must be in the format 12345-1234567-1';
                                       }
                                       return null;
                                     },
                                   ),
 
-                                  SizedBox(height: 20),
+
+
+
+
+
+
+
+
+
+                              SizedBox(height: 20),
                                 Row(
                                   children: [
                                     Expanded(

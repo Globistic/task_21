@@ -1,37 +1,46 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
-import 'package:loan_app/screens/adminScrrens/admin_home.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../adminScrrens/adminScreen.dart';
-import '../adminScrrens/admin_signUp_screen.dart';
+import '../authScreen/loginWithEmailScreen.dart';
+import 'admin_home.dart';
 
-class LoginWithEmailScreen extends StatefulWidget {
-  const LoginWithEmailScreen({Key? key}) : super(key: key);
-
+class SignUpWithEmailScreen extends StatefulWidget {
   @override
-  _LoginWithEmailScreenState createState() => _LoginWithEmailScreenState();
+  _SignUpWithEmailScreenState createState() => _SignUpWithEmailScreenState();
 }
 
-class _LoginWithEmailScreenState extends State<LoginWithEmailScreen> {
+class _SignUpWithEmailScreenState extends State<SignUpWithEmailScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isLoading = false;
 
-  Future<void> _signInWithEmailAndPassword() async {
+  Future<void> _signUpWithEmailAndPassword() async {
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
       try {
         setState(() {
           _isLoading = true;
         });
         UserCredential userCredential =
-        await FirebaseAuth.instance.signInWithEmailAndPassword(
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
+
         );
+        await FirebaseFirestore.instance
+            .collection('signUp_admins').
+            doc(userCredential.user!.uid)
+            .set({
+          'name': _nameController.text.trim(),
+          'email': _emailController.text.trim(),
+          'password': _passwordController.text.trim(),
+          'role': 'null',
+        });
         setState(() {
           _isLoading = false;
         });
@@ -47,16 +56,16 @@ class _LoginWithEmailScreenState extends State<LoginWithEmailScreen> {
         setState(() {
           _isLoading = false;
         });
-        if (e.code == 'user-not-found') {
+        if (e.code == 'weak-password') {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('No user found for that email.'),
+              content: Text('The password provided is too weak.'),
             ),
           );
-        } else if (e.code == 'wrong-password') {
+        } else if (e.code == 'email-already-in-use') {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Wrong password provided for that user.'),
+              content: Text('The account already exists for that email.'),
             ),
           );
         } else {
@@ -81,11 +90,11 @@ class _LoginWithEmailScreenState extends State<LoginWithEmailScreen> {
 
   @override
   void dispose() {
+    _nameController.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
-
 
   @override
   void initState() {
@@ -96,12 +105,11 @@ class _LoginWithEmailScreenState extends State<LoginWithEmailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       backgroundColor: Colors.lightGreen,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.lightGreen,
-        title: const Text('Login with Email'),
+        title: const Text('Sign Up with Email'),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -112,6 +120,19 @@ class _LoginWithEmailScreenState extends State<LoginWithEmailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
+                  TextFormField(
+                    textAlign: TextAlign.center,
+                    controller: _nameController,
+                    decoration: const InputDecoration(
+                      labelText: 'Name',),
+                    validator: (String? value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter your name';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16.0),
                   TextFormField(
                     textAlign: TextAlign.center,
                     controller: _emailController,
@@ -141,13 +162,15 @@ class _LoginWithEmailScreenState extends State<LoginWithEmailScreen> {
                       if (value == null || value.isEmpty) {
                         return 'Please enter a password';
                       }
+                      if (value.length < 6) {
+                        return 'Password must be at least 6 characters long';
+                      }
                       return null;
                     },
                   ),
                   const SizedBox(height: 32.0),
                   NeumorphicButton(
-                    onPressed: _isLoading ? null : _signInWithEmailAndPassword,
-
+                    onPressed: _isLoading ? null : _signUpWithEmailAndPassword,
                     padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                     margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                     style: NeumorphicStyle(
@@ -156,23 +179,23 @@ class _LoginWithEmailScreenState extends State<LoginWithEmailScreen> {
                       ),
                       depth: 1,
                     ),
-                    child:
-                         Center(child:   _isLoading
-                             ? const CircularProgressIndicator()
-                             : const Text('Sign in'),),
-
+                    child: Center(
+                      child: _isLoading
+                          ? const CircularProgressIndicator()
+                          : const Text('Sign up'),
+                    ),
                   ),
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 16.0),
                   TextButton(
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SignUpWithEmailScreen(),
+                          builder: (context) => LoginWithEmailScreen(),
                         ),
                       );
                     },
-                    child: const Text('No account? SignUp Now!'),
+                    child: const Text('Already have an account? Log in'),
                   ),
                 ],
               ),

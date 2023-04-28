@@ -87,35 +87,43 @@ class _SelfiCNICScreenState extends State<SelfiCNICScreen> {
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                flex: 7,
-                                child: LinearProgressIndicator(
-                                  value: 0.5, // 50% as decimal value
-                                  backgroundColor: Colors.grey[300],
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                      Colors.blue),
-                                  semanticsLabel: 'Linear progress indicator',
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    '50%',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.black87,
-                                      fontWeight: FontWeight.bold,
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 1),
+                            child: Column(
+                              children: [
+                                Text('You Have Completed Your Profile'),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      flex: 7,
+                                      child: LinearProgressIndicator(
+                                        value: 0.6, // 90% as decimal value
+                                        backgroundColor: Colors.grey[300],
+                                        valueColor:
+                                        AlwaysStoppedAnimation<Color>(Colors.blue),
+                                        semanticsLabel: 'Linear progress indicator',
+                                      ),
                                     ),
-                                  ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          '60%',
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            color: Colors.black87,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
-                              )
-                            ],
+                              ],
+                            ),
                           ),
-                          const SizedBox(height: 40),
+                          const SizedBox(height: 20),
                           const Text(
                             'Selfi Screen',
                             style: TextStyle(

@@ -20,21 +20,7 @@ class _MapScreenState extends State<MapScreen> {
   Set<Marker> _markers = {};
   LocationData? currentLocation;
 
-  // void sc() {
-  //   _location.onLocationChanged.listen((LocationData locationData) {
-  //     if (_mapController != null) {
-  //       _mapController!.animateCamera(CameraUpdate.newCameraPosition(
-  //         CameraPosition(
-  //           target: LatLng(locationData.latitude!, locationData.longitude!),
-  //           zoom: 15,
-  //         ),
-  //       ));
-  //     }
-  //     setState(() {
-  //       currentLocation = locationData;
-  //     });
-  //   });
-  // }
+
 
 
 
@@ -135,36 +121,7 @@ class _MapScreenState extends State<MapScreen> {
               ),
             ),
           ),
-          // NeumorphicButton(
-          //   onPressed: () async {
-          //     Navigator.push(
-          //       context,
-          //       MaterialPageRoute(
-          //           builder: (context) => NameScreen(
-          //                 ph_NoController: widget.ph_NoController,
-          //                 map_latitude: currentLocation?.latitude.toString(),
-          //                 map_longitude: currentLocation?.longitude.toString(),
-          //               )),
-          //     );
-          //   },
-          //   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-          //   margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          //   style: NeumorphicStyle(
-          //     boxShape: NeumorphicBoxShape.roundRect(
-          //       BorderRadius.circular(30),
-          //     ),
-          //     depth: 1,
-          //   ),
-          //   child: Center(
-          //     child: Text(
-          //       'Next',
-          //       style: TextStyle(
-          //         fontSize: 24,
-          //         fontWeight: FontWeight.w600,
-          //       ),
-          //     ),
-          //   ),
-          // ),
+
           SizedBox(
             height: 20,
           ),

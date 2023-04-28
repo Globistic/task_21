@@ -30,58 +30,57 @@ class _AddMobileNumberScreenState extends State<AddMobileNumberScreen> {
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-    @override
+  @override
   void initState() {
-      initialization();
+    initialization();
     super.initState();
   }
 
   void _verifyPhoneNumber() async {
     if (_formKey.currentState != null && _formKey.currentState!.validate()) {
-
       setState(() {
         loading = true;
       });
-    await _auth.verifyPhoneNumber(
-      phoneNumber: '+${_selectedCountryCode}${phNo.text}',
+      await _auth.verifyPhoneNumber(
+        phoneNumber: '+${_selectedCountryCode}${phNo.text}',
+        verificationCompleted: (_) async {
+          setState(() {
+            loading = false;
+          });
+          //  await _auth.signInWithCredential(credential);
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          setState(() {
+            loading = false;
+          });
+          Utils.toastMessage(e.toString());
+          print(e.message);
+        },
+        codeSent: (String verificationId, int? resendToken) {
+          // Save the verification ID and resend token so we can use them later
 
-      verificationCompleted: (_) async {
-        setState(() {
-          loading = false;
-        });
-        //  await _auth.signInWithCredential(credential);
-      },
-      verificationFailed: (FirebaseAuthException e) {
-        setState(() {
-          loading = false;
-        });
-        Utils.toastMessage(e.toString());
-        print(e.message);
-      },
-      codeSent: (String verificationId, int? resendToken) {
-        // Save the verification ID and resend token so we can use them later
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    OTPScreen(verificationId: verificationId, phNo: phNo.text)),
+          );
+          setState(() {
+            loading = false;
+          });
+          //phNo.text = '';
+        },
+        codeAutoRetrievalTimeout: (e) {
+          Utils.toastMessage(e.toString());
+          setState(() {
+            loading = false;
+          });
+        },
+        timeout: Duration(seconds: 60),
+      );
+    }
+  }
 
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  OTPScreen(verificationId: verificationId, phNo: phNo.text)),
-        );
-        setState(() {
-          loading = false;
-        });
-        //phNo.text = '';
-      },
-      codeAutoRetrievalTimeout: (e) {
-        Utils.toastMessage(e.toString());
-        setState(() {
-          loading = false;
-        });
-      },
-      timeout: Duration(seconds: 60),
-    );
-  }
-  }
   bool isValidNo(String value) {
     if (value == null || value.isEmpty) {
       // Phone number cannot be null or empty
@@ -108,7 +107,6 @@ class _AddMobileNumberScreenState extends State<AddMobileNumberScreen> {
     debugPrint('go!------');
     FlutterNativeSplash.remove();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -174,42 +172,66 @@ class _AddMobileNumberScreenState extends State<AddMobileNumberScreen> {
                       ),
                       padding: const EdgeInsets.symmetric(
                           vertical: 0.5, horizontal: 10),
-                     child: TextFormField(
-                      controller: phNo,
-                      validator: (value) {
-                        if (value?.isEmpty ?? true) {
-                          return 'Please enter your no';
-                        }
-                        if (!isValidNo(value!)) {
-                          return 'Please enter a valid no';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        phNo.text = value.toString();
-                      },
-                      decoration: const InputDecoration(
-                        hintText: 'Enter Mobile Number',
-                        border: InputBorder.none,
+                      child: TextFormField(
+                        controller: phNo,
+                        validator: (value) {
+                          if (value?.isEmpty ?? true) {
+                            return 'Please enter your no';
+                          }
+                          if (!isValidNo(value!)) {
+                            return 'Please enter a valid no';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          phNo.text = value.toString();
+                        },
+                        decoration: const InputDecoration(
+                          hintText: 'Enter Mobile Number',
+                          border: InputBorder.none,
+                        ),
+                        keyboardType: TextInputType.number,
                       ),
-                      keyboardType: TextInputType.number,
                     ),
-
-                  ),
                   ),
                 ],
               ),
             ),
             const SizedBox(height: 60),
+            // NeumorphicButton(
+            //   onPressed: () async {
+            //     loading ? null : _verifyPhoneNumber();
+            //   },
+            //   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            //   margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            //   style: NeumorphicStyle(
+            //     boxShape: NeumorphicBoxShape.roundRect(
+            //       BorderRadius.circular(30),
+            //     ),
+            //     depth: 1,
+            //   ),
+            //   child: loading
+            //       ? Row(
+            //           mainAxisAlignment: MainAxisAlignment.center,
+            //           crossAxisAlignment: CrossAxisAlignment.center,
+            //           children: [
+            //             Text('Loading . . . '),
+            //             SizedBox(
+            //               width: 5,
+            //             ),
+            //             CircularProgressIndicator(),
+            //           ],
+            //         )
+            //       : Text('Continue',
+            //           style: TextStyle(
+            //             fontSize: 24,
+            //             fontWeight: FontWeight.w600,
+            //           )),
+            // ),
+
+
             NeumorphicButton(
-              onPressed: () async {
-
-
-
-                  loading ? null : _verifyPhoneNumber();
-
-
-              },
+              onPressed: loading ? null : _verifyPhoneNumber,
               padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
               margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               style: NeumorphicStyle(
@@ -218,21 +240,28 @@ class _AddMobileNumberScreenState extends State<AddMobileNumberScreen> {
                 ),
                 depth: 1,
               ),
-              child: loading ?   Row(
+              child: loading
+                  ? Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text('Loading . . . '),
-                  SizedBox(width: 5,),
+                  SizedBox(
+                    width: 5,
+                  ),
                   CircularProgressIndicator(),
                 ],
-              ) : Text('Continue',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
-                  )),
-
+              )
+                  : Text(
+                'Continue',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ),
+
+
             // SizedBox(height: 20),
             // TextButton(
             //   onPressed: () async {

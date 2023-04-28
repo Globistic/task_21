@@ -147,6 +147,8 @@ class GetAllUserDataModel {
       loanAmount: data['loanAmount'],
       emergency_family_name: data['emergency_family_name'],
       emergency_famly_number: data['emergency_famly_number'],
+      emergency_friend_name: data['emergency_friend_name'],
+      emergency_friend_number: data['emergency_friend_number'],
       relationShip: data['relationShip'],
       cnicFrontUrl: data['cnicFrontUrl'],
       cnicBackUrl: data['cnicBackUrl'],

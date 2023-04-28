@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -29,6 +30,12 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
+
+  @override
+  void initState() {
+    FlutterNativeSplash.remove();
+    super.initState();
+  }
 
   void signOut() async  {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -128,20 +135,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   BorderRadius.all(Radius.circular(10))),
                           child: Column(
                             children: [
-                              // ListTile(
-                              //         onTap: () {
-                              //           Navigator.push(
-                              //             context,
-                              //             MaterialPageRoute(
-                              //                 builder: (context) =>
-                              //                     NeedHelpScreen()),
-                              //             //  MaterialPageRoute(builder: (context) => HomeScreen()),
-                              //           );
-                              //
-                              //         },
-                              //     leading: Icon(Icons.support),
-                              //         title: Text('Customer Service'),
-                              //         trailing: Icon(Icons.arrow_forward_ios))
+
                               ListTile(
                                       onTap: () {
                                         showDialog(

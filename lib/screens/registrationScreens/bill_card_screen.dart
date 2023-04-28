@@ -94,32 +94,38 @@ class _BillCardScreenState extends State<BillCardScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Padding(
-                padding: const EdgeInsets.all(28.0),
-                child: Row(
+                padding: const EdgeInsets.only(left: 20,right: 20,top:20,bottom: 20),
+                child: Column(
                   children: [
-                    Expanded(
-                      flex: 7,
-                      child: LinearProgressIndicator(
-                        value: 0.8, // 80% as decimal value
-                        backgroundColor: Colors.grey[300],
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                        semanticsLabel: 'Linear progress indicator',
-                      ),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          '80%',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Colors.black87,
-                            fontWeight: FontWeight.bold,
+                    Text('You Have Completed Your Profile'),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 7,
+                          child: LinearProgressIndicator(
+                            value: 0.8, // 90% as decimal value
+                            backgroundColor: Colors.grey[300],
+                            valueColor:
+                            AlwaysStoppedAnimation<Color>(Colors.blue),
+                            semanticsLabel: 'Linear progress indicator',
                           ),
                         ),
-                      ),
-                    )
+                        Expanded(
+                          flex: 1,
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              '80%',
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.black87,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ],
                 ),
               ),

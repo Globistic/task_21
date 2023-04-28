@@ -29,6 +29,10 @@ class RegistrationServicesProvider extends ChangeNotifier {
     return _firebaseAuth.authStateChanges().map(userFromFireBase);
   }
 
+
+
+
+
   Future<AuthResultStatus?> signInWithEmailAndPassword(
       String email, String password, BuildContext context) async {
     try {
@@ -50,65 +54,7 @@ class RegistrationServicesProvider extends ChangeNotifier {
     return _status;
   }
 
-  // Future<User?> createUserWithEmailAndPassword(
-  //
-  //     BuildContext context, {
-  //       required String phNo,
-  //       required String name,
-  //       required String map_lat,
-  //       required String map_long,
-  //       required String complete_name,
-  //       required String cnic,
-  //       required String cnic_exipry,
-  //       required String dob,
-  //       required String current_address,
-  //       required String permennt_address,
-  //       required String married_status,
-  //       required String no_of_childern,
-  //       required String qualification,
-  //       required String lend_amount,
-  //       required String emergency_family_name,
-  //       required String emergency_friend_name,
-  //       required String relationShipWithFamilyMember,
-  //       required File cnicFront,
-  //       required File cnicBack,
-  //     })
-  //     async {
-  //       final credential = await adduser.FirebaseFirestore.instance
-  //           .collection('users')
-  //         //  .doc(_firebaseAuth.currentUser?.uid)
-  //           .doc('40')
-  //           .set({
-  //         'phoneNo' : phNo,
-  //         'name': name,
-  //         'map_lat': map_lat,
-  //         'map_long': map_long,
-  //         'complete_name': complete_name,
-  //         'cnic': cnic,
-  //         'cnic_exipry': cnic_exipry,
-  //         'dob': dob,
-  //         'current_address': current_address,
-  //         'permennt_address': permennt_address,
-  //         'married_status': married_status,
-  //         'no_of_childern': no_of_childern,
-  //         'qualification': qualification,
-  //         'lend_amount': lend_amount,
-  //         'emergency_family_name': emergency_family_name,
-  //         'emergency_friend_name': emergency_friend_name,
-  //         'relationship_with_family_member': relationShipWithFamilyMember,
-  //
-  //         //'uId': _firebaseAuth.currentUser?.uid,
-  //       });
-  //       final Reference storageRef =
-  //       FirebaseStorage.instance.ref().child('images/${DateTime.now()}.png');
-  //
-  //       final TaskSnapshot taskSnapshot = await storageRef.putFile(File(cnicFront.path));
-  //       final TaskSnapshot taskSnapshot2 = await storageRef.putFile(File(cnicBack.path));
-  //
-  //       final String downloadUrl = await storageRef.getDownloadURL();
-  //
-  //       print('File Uploaded: $downloadUrl');
-  //     }
+
   Future<User?> createUserWithEmailAndPassword(
       BuildContext context, {
         required String phNo,
@@ -122,8 +68,6 @@ class RegistrationServicesProvider extends ChangeNotifier {
         required String current_address,
         required String permennt_address,
         required String married_status,
-        //  required String no_of_childern,
-        //  required String qualification,
         required String loanAmount,
         required String emergency_family_name,
         required String emergency_famly_number,
@@ -135,6 +79,27 @@ class RegistrationServicesProvider extends ChangeNotifier {
         required File selfi_withCNIC,
         required File selfi,
         required File bill_card_pic,
+/////////////////////////////////////////
+        required String device,
+        required String brand,
+        required String isPhysicalDevice,
+        required String version_sdkInt,
+        required String manufacturer,
+        required String model,
+        required String board,
+        required String display,
+        required String fingerprint,
+        required String hardware,
+        required String id,
+        required String product,
+        required String androidId,
+
+        required String appName,
+        required String idName,
+        required String version,
+        required String buildNumber,
+
+
       }) async {
     try {
       String? cnicFrontUrl;
@@ -208,9 +173,6 @@ class RegistrationServicesProvider extends ChangeNotifier {
         'current_address': current_address,
         'permennt_address': permennt_address,
         'married_status': married_status,
-        // 'no_of_childern': no_of_childern,
-        // 'qualification': qualification,
-        //  'loanAmount': loanAmount,
         "cnicFrontUrl": cnicFrontUrl,
         "cnicBackUrl": cnicBackUrl,
         "selfiUrl": selfiUrl,
@@ -221,6 +183,32 @@ class RegistrationServicesProvider extends ChangeNotifier {
          'emergency_friend_name': emergency_friend_name,
          'emergency_friend_number': emergency_friend_number,
         'relationShip': relationShip,
+      });
+
+      final userApiDoc = await adduser.FirebaseFirestore.instance
+          .collection('usersApiInfo')
+          .doc(_firebaseAuth.currentUser?.uid)
+          .set({
+        'userUID': _firebaseAuth.currentUser?.uid,
+        'brand': brand,
+        'device': device,
+        'isPhysicalDevice': isPhysicalDevice,
+        'version_sdkInt': version_sdkInt,
+        'manufacturer': manufacturer,
+        'model': model,
+        'board': board,
+        'display': display,
+        'fingerprint': fingerprint,
+        'hardware': hardware,
+        'id': id,
+        'product': product,
+        'androidId': androidId,
+        'appName': appName,
+        'idName': idName,
+        'version': version,
+        'buildNumber': buildNumber,
+
+
       });
 
       final addStatus = await adduser.FirebaseFirestore.instance

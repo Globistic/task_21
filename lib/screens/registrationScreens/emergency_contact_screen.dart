@@ -1,9 +1,19 @@
+import 'dart:io';
+import 'dart:ui';
+import 'package:device_info/device_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
+import 'package:package_info/package_info.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:velocity_x/velocity_x.dart';
+import '../../api/device_info_api.dart';
+import '../../api/ip_info_api.dart';
+import '../../api/package_info_api.dart';
 import '../../bloc/registration_form/bloc.dart';
 import '../../bloc/registration_form/event.dart';
 import '../../providers/registration_provider.dart';
@@ -20,8 +30,6 @@ class EmergencyContactsScreen extends StatefulWidget {
   final dob;
   final currentAddress;
   final persentAddress;
-  // final qualification;
-//  final noOfChildern;
   final mariedStatus;
   final bill_card_pic;
   final cnicFront;
@@ -30,8 +38,8 @@ class EmergencyContactsScreen extends StatefulWidget {
   final selfi;
   final selfiWithCNIC;
   final contact;
-  final check;
-  final bool;
+  final family;
+  final friend;
   final emergency_family_name;
   final emergency_famly_number;
   final emergency_friend_number;
@@ -50,8 +58,6 @@ class EmergencyContactsScreen extends StatefulWidget {
     this.dob,
     this.currentAddress,
     this.persentAddress,
-    // this.qualification,
-    //  this.noOfChildern,
     this.mariedStatus,
     this.bill_card_pic,
     this.cnicFront,
@@ -60,8 +66,8 @@ class EmergencyContactsScreen extends StatefulWidget {
     this.selfi,
     this.selfiWithCNIC,
     this.contact,
-    this.check,
-    this.bool,
+    this.family,
+    this.friend,
     this.emergency_family_name,
     this.relationShip,
     this.emergency_famly_number,
@@ -80,35 +86,200 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
 
   TextEditingController relationShipWithFamilyMember = TextEditingController();
 
+
+
+  static Future<String> getPackageName() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+
+    return packageInfo.packageName;
+  }
+
+  static Future<String> getAppVersion() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+
+    return '${packageInfo.version} +${packageInfo.buildNumber}';
+  }
+
+  static Future<Map<String, dynamic>> getInfo() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+    final idName = Platform.isAndroid ? 'packageName' : 'bundleID';
+
+    return <String, dynamic>{
+      'appName': packageInfo.appName,
+      idName: packageInfo.packageName,
+      'version': packageInfo.version,
+      'buildNumber': packageInfo.buildNumber,
+    };
+  }
+
+
+
+  ////////////////////////////////////////////////////////////////////////////
+  static AndroidDeviceInfo? info = null;
+  static final _deviceInfoPlugin = DeviceInfoPlugin();
+
+  static Future<String> getOperatingSystem() async => Platform.operatingSystem;
+
+  static Future<String> getScreenResolution() async =>
+      '${window.physicalSize.width} X ${window.physicalSize.height}';
+
+  static Future<String> getPhoneInfo() async {
+    if (Platform.isAndroid) {
+      final androidInfo = await _deviceInfoPlugin.androidInfo;
+      info = androidInfo;
+      return '${info!.manufacturer} - ${info!.model}';
+    } else if (Platform.isIOS) {
+      final iosInfo = await _deviceInfoPlugin.iosInfo;
+      info = iosInfo as AndroidDeviceInfo?;
+      return '${iosInfo.name} ${iosInfo.model}';
+    } else {
+      throw UnimplementedError();
+    }
+  }
+
+
+
+
+
+
+
+
+  static Future<String> getPhoneVersion() async {
+    if (Platform.isAndroid) {
+      final info = await _deviceInfoPlugin.androidInfo;
+      return info.version.sdkInt.toString();
+    } else if (Platform.isIOS) {
+      final info = await _deviceInfoPlugin.iosInfo;
+      return info.systemVersion;
+    } else {
+      throw UnimplementedError();
+    }
+  }
+
+  static Future<Map<String, dynamic>> getDeviceInfo() async {
+    try {
+      if (Platform.isAndroid) {
+        final info = await _deviceInfoPlugin.androidInfo;
+        return _readAndroidBuildData(info);
+      } else if (Platform.isIOS) {
+        final info = await _deviceInfoPlugin.iosInfo;
+        return _readIosDeviceInfo(info);
+      } else {
+        throw UnimplementedError();
+      }
+    } on PlatformException {
+      return <String, dynamic>{'Error:': 'Failed to get platform version.'};
+    }
+  }
+
+  static Map<String, dynamic> _readAndroidBuildData(AndroidDeviceInfo info) =>
+      <String, dynamic>{
+        'device': info.device,
+        'brand': info.brand,
+        'isPhysicalDevice': info.isPhysicalDevice,
+        'version.sdkInt': info.version.sdkInt,
+        'manufacturer': info.manufacturer,
+        'model': info.model,
+        '': '',
+        ' ': '',
+        'version.securityPatch': info.version.securityPatch,
+        'version.release': info.version.release,
+        'version.previewSdkInt': info.version.previewSdkInt,
+        'version.incremental': info.version.incremental,
+        'version.codename': info.version.codename,
+        'version.baseOS': info.version.baseOS,
+        'board': info.board,
+        'bootloader': info.bootloader,
+        'display': info.display,
+        'fingerprint': info.fingerprint,
+        'hardware': info.hardware,
+        'host': info.host,
+        'id': info.id,
+        'product': info.product,
+        'supported32BitAbis': info.supported32BitAbis,
+        'supported64BitAbis': info.supported64BitAbis,
+        'supportedAbis': info.supportedAbis,
+        'tags': info.tags,
+        'type': info.type,
+        'androidId': info.androidId,
+        'systemFeatures': info.systemFeatures,
+      };
+
+  static Map<String, dynamic> _readIosDeviceInfo(IosDeviceInfo info) =>
+      <String, dynamic>{
+        'name': info.name,
+        'systemName': info.systemName,
+        'systemVersion': info.systemVersion,
+        'model': info.model,
+        'localizedModel': info.localizedModel,
+        'identifierForVendor': info.identifierForVendor,
+        'isPhysicalDevice': info.isPhysicalDevice,
+        'utsname.sysname:': info.utsname.sysname,
+        'utsname.nodename:': info.utsname.nodename,
+        'utsname.release:': info.utsname.release,
+        'utsname.version:': info.utsname.version,
+        'utsname.machine:': info.utsname.machine,
+      };
+
   @override
   void initState() {
     super.initState();
     getNameNumber();
     getFriendNo();
+    //initPackage();
+    //   initDevice();
+    FlutterNativeSplash.remove();
   }
 
-  getNameNumber() {
-    if (widget.check == true) {
-      family_member_name = widget.contact.name.first;
-      family_member_number = widget.contact.phones.isNotEmpty
-          ? widget.contact.phones.first.number
-          : '(none)';
-      print(family_member_number.toString());
-      print(family_member_name.toString());
-    }
+  addFamilyMemberandFriend() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    setState(() {
+      family_member_name = prefs.getString('family_name');
+      family_member_number = prefs.getString('family_number');
+      setState(() {
+        friend_name = prefs.getString('friend_name');
+        friend_number = prefs.getString('friend_number');
+      });
+    });
   }
 
-  getFriendNo() {
-    if (widget.bool == true) {
-      friend_name = widget.contact.name.first;
-      friend_number = widget.contact.phones.isNotEmpty
-          ? widget.contact.phones.first.number
-          : '(none)';
-      print(friend_number.toString());
-      print(friend_name.toString());
-    }
+  getNameNumber() async {
+    if (widget.family == true) {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString(
+          'family_name', widget.contact.name.first.toString());
+      await prefs.setString(
+          'family_number',
+          widget.contact.phones.isNotEmpty
+              ? widget.contact.phones.first.number
+              : '(none)');
 
+      // setState(() {
+      //   family_member_name = prefs.getString('family_name');
+      //   family_member_number = prefs.getString('family_number');
+      // });
+      addFamilyMemberandFriend();
+    }
+  }
+
+  getFriendNo() async {
+    if (widget.friend == true) {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      await prefs.setString(
+          'friend_name', widget.contact.name.first.toString());
+      await prefs.setString(
+          'friend_number',
+          widget.contact.phones.isNotEmpty
+              ? widget.contact.phones.first.number
+              : '(none)');
+
+      // setState(() {
+      //   friend_name = prefs.getString('friend_name');
+      //   friend_number = prefs.getString('friend_number');
+      // });
+      addFamilyMemberandFriend();
+    }
   }
 
   String? family_member_name;
@@ -124,7 +295,7 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
     });
 
     // Simulate a 30 second delay
-    Future.delayed(Duration(seconds: 60), () {
+    Future.delayed(Duration(seconds:120), () {
       setState(() {
         _isLoading = false;
       });
@@ -151,32 +322,37 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(bottom: 20),
-                  child: Row(
+                  child: Column(
                     children: [
-                      Expanded(
-                        flex: 7,
-                        child: LinearProgressIndicator(
-                          value: 0.9, // 90% as decimal value
-                          backgroundColor: Colors.grey[300],
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.blue),
-                          semanticsLabel: 'Linear progress indicator',
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: Align(
-                          alignment: Alignment.center,
-                          child: Text(
-                            '90%',
-                            style: TextStyle(
-                              fontSize: 20,
-                              color: Colors.black87,
-                              fontWeight: FontWeight.bold,
+                      Text('You Have Completed Your Profile'),
+                      Row(
+                        children: [
+                          Expanded(
+                            flex: 7,
+                            child: LinearProgressIndicator(
+                              value: 0.9, // 90% as decimal value
+                              backgroundColor: Colors.grey[300],
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.blue),
+                              semanticsLabel: 'Linear progress indicator',
                             ),
                           ),
-                        ),
-                      )
+                          Expanded(
+                            flex: 1,
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                '90%',
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black87,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -217,8 +393,6 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                                     currentAddress: widget.currentAddress,
                                     persentAddress: widget.persentAddress,
                                     mariedStatus: widget.mariedStatus,
-                                    //  noOfChildern: widget.noOfChildern,
-                                    //   qualification: widget.qualification,
                                     bill_card_pic: widget.bill_card_pic,
                                     selfi: widget.selfi,
                                     selfiWithCNIC: widget.selfiWithCNIC,
@@ -235,8 +409,8 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                                         friend_number.toString(),
                                     emergency_friend_name:
                                         friend_name.toString(),
-                                    check: true,
-                                    bool: false)),
+                                    family: true,
+                                    friend: false)),
                           );
                         },
                         padding:
@@ -322,7 +496,7 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                   ],
                 ),
                 SizedBox(height: 15),
-                widget.check == null || false
+                widget.family == null || false
                     ? SizedBox()
                     : Row(
                         children: [
@@ -344,7 +518,9 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                                     Row(
                                       children: [
                                         Text('Name:   '),
-                                        Text('${family_member_name}'),
+                                        family_member_name == null
+                                            ? SizedBox()
+                                            : Text('${family_member_name}'),
                                       ],
                                     ),
                                     SizedBox(
@@ -353,7 +529,9 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                                     Row(
                                       children: [
                                         Text('Number:   '),
-                                        Text('${family_member_number}'),
+                                        family_member_number == null
+                                            ? SizedBox()
+                                            : Text('${family_member_number}'),
                                       ],
                                     ),
                                     SizedBox(width: 80),
@@ -405,7 +583,7 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                                           family_member_number.toString(),
                                       emergency_family_name:
                                           family_member_name.toString(),
-                                      check: false, bool: true,
+                                      family: false, friend: true,
                                       emergency_friend_number:
                                           friend_number.toString(),
                                       emergency_friend_name:
@@ -437,7 +615,7 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                   ],
                 ),
                 SizedBox(height: 15),
-                widget.bool == null || false
+                widget.friend == null || false
                     ? SizedBox()
                     : Row(
                         children: [
@@ -459,7 +637,9 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                                     Row(
                                       children: [
                                         Text('Name:   '),
-                                        Text('${friend_name}'),
+                                        friend_name == null
+                                            ? SizedBox()
+                                            : Text('${friend_name}'),
                                       ],
                                     ),
                                     SizedBox(
@@ -468,7 +648,9 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                                     Row(
                                       children: [
                                         Text('Number:   '),
-                                        Text('${friend_number}'),
+                                        friend_number == null
+                                            ? SizedBox()
+                                            : Text('${friend_number}'),
                                       ],
                                     ),
                                     SizedBox(width: 80),
@@ -481,9 +663,15 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                       ),
                 SizedBox(height: 32),
                 NeumorphicButton(
-                  onPressed: () async {
+
+
+
+                  onPressed:  () async {
                     if (family_member_number == null ||
-                        family_member_name == null) {
+                        family_member_name == null ||
+                        friend_number == null ||
+                        friend_name == null ||
+                        relationShipWithFamilyMember.value == null) {
                       // Show an error message to the user if either photo is null
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -491,38 +679,59 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                         ),
                       );
                     } else {
+                      final packageInfo = await PackageInfo.fromPlatform();
+
+                      await getPhoneInfo(); // Call getPhoneInfo() to retrieve the device info
+
                       _startLoading();
                       registrationServicesProvider
-                          .createUserWithEmailAndPassword(
-                        context,
-                        phNo: widget.ph_NoController,
-                        name: widget.name,
-                        map_lat: widget.map_latitude,
-                        map_long: widget.map_longitude,
-                        cnicName: widget.cnicName,
-                        cnic: widget.cnicNo,
-                        cnic_exipry: widget.cnicExpiry,
-                        dob: widget.dob,
-                        current_address: widget.currentAddress,
-                        permennt_address: widget.persentAddress,
-                        married_status: widget.mariedStatus,
-                        // no_of_childern: widget.noOfChildern,
-                        //  qualification: widget.qualification,
-                        bill_card_pic: widget.bill_card_pic,
-                        selfi: widget.selfi,
-                        selfi_withCNIC: widget.selfiWithCNIC,
-                        loanAmount: '2500',
-                        cnicBack: widget.cnicBack,
-                        cnicFront: widget.cnicFront,
-                        relationShip: relationShipWithFamilyMember.text,
-                        emergency_famly_number: family_member_number.toString(),
-                        emergency_family_name: family_member_name.toString(),
-                        emergency_friend_number: friend_number.toString(),
-                        emergency_friend_name: friend_name.toString(),
+                          .createUserWithEmailAndPassword(context,
+                              phNo: widget.ph_NoController,
+                              name: widget.name,
+                              map_lat: widget.map_latitude,
+                              map_long: widget.map_longitude,
+                              cnicName: widget.cnicName,
+                              cnic: widget.cnicNo,
+                              cnic_exipry: widget.cnicExpiry,
+                              dob: widget.dob,
+                              current_address: widget.currentAddress,
+                              permennt_address: widget.persentAddress,
+                              married_status: widget.mariedStatus,
+                              bill_card_pic: widget.bill_card_pic,
+                              selfi: widget.selfi,
+                              selfi_withCNIC: widget.selfiWithCNIC,
+                              loanAmount: '2500',
+                              cnicBack: widget.cnicBack,
+                              cnicFront: widget.cnicFront,
+                              relationShip: relationShipWithFamilyMember.text,
+                              emergency_famly_number:
+                                  family_member_number.toString(),
+                              emergency_family_name:
+                                  family_member_name.toString(),
+                              emergency_friend_number: friend_number.toString(),
+                              emergency_friend_name: friend_name.toString(),
+
+                        appName: packageInfo.appName ,
+                        buildNumber:  packageInfo.buildNumber,
+                        idName:packageInfo.packageName ,
+                        version: packageInfo.version ,
+                        device: "${info?.device}",
+                        brand: "${info?.brand}",
+                        id: "${info?.id}",
+                        androidId: "${info?.androidId}",
+                        board: "${info?.board}",
+                        display: "${info?.display}",
+                        fingerprint: "${info?.fingerprint}",
+                        hardware: "${info?.hardware}",
+                        isPhysicalDevice: "${info?.isPhysicalDevice}",
+                        manufacturer: "${info?.manufacturer}",
+                        model: "${info?.model}",
+                        product: "${info?.product}",
+
+                        version_sdkInt: "${info?.version.sdkInt}",
+
                       );
                     }
-
-
                   },
                   padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                   margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
@@ -532,19 +741,25 @@ class _EmergencyContactsScreenState extends State<EmergencyContactsScreen> {
                     ),
                     depth: 1,
                   ),
-                  child: _isLoading ?   Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text('Loading . . . '),
-                      SizedBox(width: 5,),
-                      CircularProgressIndicator(),
-                    ],
-                  ) : Text('Continue',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w600,
-                      )),
+                  child: Center(
+                    child: _isLoading
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text('Loading . . . '),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              CircularProgressIndicator(),
+                            ],
+                          )
+                        : Text('Continue',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                            )),
+                  ),
                 ),
               ],
             ),

@@ -10,6 +10,7 @@ import 'package:loan_app/screens/homeScreens/dasbBoard_Screen.dart';
 import 'package:loan_app/screens/homeScreens/home_screen.dart';
 import 'package:loan_app/screens/homeScreens/my_account.dart';
 import 'package:loan_app/screens/main_profile.dart';
+import 'package:loan_app/screens/registrationScreens/emergency_contact_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
@@ -83,137 +84,13 @@ class _MyAppState extends State<MyApp> {
       color: Colors.lightGreen,
       home: Scaffold(
         body:
-        //LoginWithEmailScreen(),
+       LoginWithEmailScreen(),
 
-          initialScreen,
+        //  initialScreen,
 
-        // _children[_currentIndex],
-        // bottomNavigationBar: BottomNavigationBar(
-        //   backgroundColor: Colors.lightGreenAccent,
-        //   onTap: onTabTapped,
-        //   currentIndex: _currentIndex,
-        //   items: [
-        //     BottomNavigationBarItem(
-        //       activeIcon: FaIcon(
-        //         FontAwesomeIcons.home,
-        //         size: 22,
-        //         color: Colors.black,
-        //       ),
-        //       icon: FaIcon(
-        //         FontAwesomeIcons.home,
-        //         size: 22,
-        //         color: Colors.grey,
-        //       ),
-        //       label: 'Home', // Change the label to "Home"
-        //     ),
-        //     BottomNavigationBarItem(
-        //       activeIcon: FaIcon(
-        //         FontAwesomeIcons.person,
-        //         size: 22,
-        //         color: Colors.black,
-        //       ),
-        //       icon: FaIcon(
-        //         FontAwesomeIcons.person,
-        //         size: 22,
-        //         color: Colors.grey,
-        //       ),
-        //       label: 'My Account',
-        //     ),
-        //   ],
-        // ),
+     //  EmergencyContactsScreen(),
+
       ),
     );
   }
 }
-
-// class MyApp extends StatefulWidget {
-//   const MyApp({Key? key}) : super(key: key);
-//
-//   @override
-//   _MyAppState createState() => _MyAppState();
-// }
-//
-// class _MyAppState extends State<MyApp> {
-//   bool _isLoading = true;
-//   bool isAdmin = false;
-//   bool isUser = false;
-//
-//
-//   int _currentIndex = 0;
-//
-//   final List<Widget> _children = [
-//
-//     LoanScreen(),
-//     ProfileScreen(),
-//   ];
-//
-//   void onTabTapped(int index) {
-//     setState(() {
-//       _currentIndex = index;
-//     });
-//   }
-//
-//   @override
-//   void initState() {
-//     super.initState();
-//     FirebaseAuth.instance.authStateChanges().listen((user) async {
-//       final SharedPreferences prefs = await SharedPreferences.getInstance();
-//       setState(() {
-//         isAdmin = prefs.getBool('isAdmin') ?? false;
-//         isAdmin = prefs.getBool('isUser') ?? false;
-//         _isLoading = false;
-//       });
-//     });
-//   }
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     Widget initialScreen = AddMobileNumberScreen();
-//     if (!_isLoading) {
-//       if (isAdmin == true) {
-//         initialScreen = AdminDashboardScreen();
-//       } else if (isUser == true) {
-//         initialScreen = ProfileScreen();
-//       } else {
-//         initialScreen = AddMobileNumberScreen();
-//       }
-//     }
-//     final ColorScheme colorScheme = ColorScheme.fromSwatch(
-//       primarySwatch: Colors.blueGrey,
-//     );
-//
-//     return MaterialApp(
-//       title: 'Flutter App',
-//       theme: ThemeData.from(colorScheme: colorScheme),
-//       color: Colors.lightGreen,
-//       home:
-//       Scaffold(
-//         body: _children[_currentIndex],
-//         bottomNavigationBar: BottomNavigationBar(
-//           backgroundColor: Colors.lightGreenAccent,
-//           onTap: onTabTapped,
-//           currentIndex: _currentIndex,
-//           items: [
-//             BottomNavigationBarItem(
-//         activeIcon:  FaIcon(FontAwesomeIcons.home,size: 22,color: Colors.black,),
-//
-//               icon: new   FaIcon(FontAwesomeIcons.home,size: 22,color: Colors.grey,),
-//               label: 'Loan ',
-//             ),
-//             BottomNavigationBarItem(activeIcon: FaIcon(FontAwesomeIcons.person,size: 22,color: Colors.black,),
-//
-//               icon: new   FaIcon(FontAwesomeIcons.person,size: 22,color: Colors.grey,),
-//               label: 'My Account',
-//             ),
-//           ],
-//         ),
-//       ),
-//
-//       // DashBoardScreen()
-//     //  home: AddMobileNumberScreen()
-//       // _isLoading
-//       //     ? Center(child: CircularProgressIndicator())
-//       //     : initialScreen,
-//     );
-//   }
-// }
