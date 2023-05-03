@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:loan_app/screens/adminScrrens/adminScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
+import 'package:loan_app/screens/adminScrrens/send_notification_screen.dart';
 import 'add_tax_screen.dart';
 import 'admin_check_status.dart';
 
@@ -29,6 +30,38 @@ class _AdminHomeState extends State<AdminHome> {
           padding:  EdgeInsets.all(30.0),
           child: Text('Admin Home'),
         ),
+
+          NeumorphicButton(
+            onPressed: () async {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) =>  SendNotificationScreen(),
+                ),
+              );
+
+
+            },
+            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            style: NeumorphicStyle(
+              boxShape: NeumorphicBoxShape.roundRect(
+                BorderRadius.circular(30),
+              ),
+              depth: 1,
+            ),
+            child: Center(
+              child: Text(
+                'Send Notification',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+
+            ),
+          ),
+
+
           NeumorphicButton(
             onPressed: () async {
               Navigator.of(context).push(

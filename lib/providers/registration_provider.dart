@@ -223,7 +223,6 @@ class RegistrationServicesProvider extends ChangeNotifier {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('uid', "${_firebaseAuth.currentUser?.uid}");
 
-      await prefs.setBool('isAdmin', false);
 
       await prefs.setBool('isUser', true);
       Navigator.pushReplacement(

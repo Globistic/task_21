@@ -63,12 +63,27 @@ class _UserDeviceInfoState extends State<UserDeviceInfo> {
         versionSdkInt = doc['versionSdkInt'];
       });
     }
+    setState(() {
+
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.lightGreen,
       appBar: AppBar(
+        actions: [Row(
+          children: [
+            GestureDetector(child: Text('Refresh'),onTap: (){setState(() {
+
+            });},),
+            IconButton(onPressed: (){setState(() {
+
+            });}, icon: Icon(Icons.refresh),),
+          ],
+        ),],
+        backgroundColor: Colors.lightGreen,
         title: const Text('User Device Info'),
       ),
       body: ListView(
@@ -102,16 +117,23 @@ class _UserDeviceInfoState extends State<UserDeviceInfo> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            label,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          Expanded(
+            flex: 2,
+            child: Text(
+              label,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
           ),
-          Text(
-            value ?? '-',
-            style: const TextStyle(fontSize: 16),
+          Expanded(
+            flex: 3,
+            child: Text(
+              value ?? '-',
+              style: const TextStyle(fontSize: 16),
+            ),
           ),
         ],
       ),
     );
+
   }
 }

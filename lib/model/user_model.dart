@@ -12,6 +12,7 @@ class User {
 
 class UserDataModel {
   final String? phoneNo;
+  final String? uID;
   final String? name;
   final String? map_lat;
   final String? map_long;
@@ -28,8 +29,10 @@ class UserDataModel {
   final String? emergency_family_name;
   final String? emergency_famly_number;
   final String? relationShip;
+  final String? selfiUrl;
 
   UserDataModel({
+    this.uID,
     this.phoneNo,
     this.name,
     this.map_lat,
@@ -47,12 +50,14 @@ class UserDataModel {
     this.emergency_family_name,
     this.emergency_famly_number,
     this.relationShip,
+    this.selfiUrl,
   });
 
   factory UserDataModel.fromDocumentSnapshot(DocumentSnapshot<Map<String, dynamic>> snapshot) {
     Map<String, dynamic> data = snapshot.data()!;
     return UserDataModel(
       phoneNo: data['phoneNo'],
+      uID: data['userUID'],
       name: data['name'],
       map_lat: data['map_lat'],
       map_long: data['map_long'],
@@ -69,6 +74,7 @@ class UserDataModel {
       emergency_family_name: data['emergency_family_name'],
       emergency_famly_number: data['emergency_famly_number'],
       relationShip: data['relationShip'],
+      selfiUrl: data['selfiUrl'],
     );
   }
 }
@@ -132,6 +138,7 @@ class GetAllUserDataModel {
     final data = snapshot.data() as Map<String, dynamic>;
     return GetAllUserDataModel(
       phoneNo: data['phoneNo'],
+      userUID: data['userUID'],
       name: data['name'],
       map_lat: data['map_lat'],
       map_long: data['map_long'],

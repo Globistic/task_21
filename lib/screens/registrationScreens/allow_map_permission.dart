@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:loan_app/screens/registrationScreens/name_screen.dart';
 import 'package:location/location.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
+
 
 class MapScreen extends StatefulWidget {
   final ph_NoController;
@@ -27,6 +32,7 @@ class _MapScreenState extends State<MapScreen> {
   @override
   void initState() {
     super.initState();
+    FlutterNativeSplash.remove();
   }
 
   @override
@@ -42,14 +48,7 @@ class _MapScreenState extends State<MapScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 1,bottom: 130),
-                    child: Icon(
-                      Icons.pin_drop_outlined,
-                      size: 100,
-                      color: Colors.red,
-                    ),
-                  ),
+
                   Center(
                       child: Padding(
                     padding: const EdgeInsets.only(left: 1),
@@ -60,6 +59,30 @@ class _MapScreenState extends State<MapScreen> {
                   )),
                 ],
               )),
+
+          SizedBox(
+            height: 20,
+          ),
+          // Expanded(
+          //   flex: 4,
+          //   child: SvgPicture.asset(
+          //     'assets/map1.svg',
+          //
+          //   ),
+          // ),
+          Expanded(
+            flex: 4,
+            child:    Padding(
+            padding: const EdgeInsets.only(left: 1,),
+            child: FaIcon(FontAwesomeIcons.locationDot,
+            color: Colors.blue,
+              size: 200,
+            ),
+
+          ),),
+          SizedBox(
+            height: 20,
+          ),
           NeumorphicButton(
             onPressed: () async {
 
@@ -125,20 +148,20 @@ class _MapScreenState extends State<MapScreen> {
           SizedBox(
             height: 20,
           ),
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: GoogleMap(
-                initialCameraPosition:
-                    CameraPosition(target: _initialCameraPosition, zoom: 15),
-                markers: _markers,
-                onMapCreated: (GoogleMapController controller) {
-                  _mapController = controller;
-                },
-              ),
-            ),
-          )
+          // Expanded(
+          //   flex: 2,
+          //   child: Padding(
+          //     padding: const EdgeInsets.all(8.0),
+          //     child: GoogleMap(
+          //       initialCameraPosition:
+          //           CameraPosition(target: _initialCameraPosition, zoom: 15),
+          //       markers: _markers,
+          //       onMapCreated: (GoogleMapController controller) {
+          //         _mapController = controller;
+          //       },
+          //     ),
+          //   ),
+          // )
         ],
       ),
     ));

@@ -19,12 +19,14 @@
 // }
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 
 class LoanStatusScreenAdmin extends StatefulWidget {
   final String userId;
+  final String name;
 
-  LoanStatusScreenAdmin({required this.userId});
+  LoanStatusScreenAdmin({required this.userId, required this.name});
 
   @override
   _LoanStatusScreenAdminState createState() => _LoanStatusScreenAdminState();
@@ -32,36 +34,39 @@ class LoanStatusScreenAdmin extends StatefulWidget {
 
 class _LoanStatusScreenAdminState extends State<LoanStatusScreenAdmin> {
   String _status = 'In Review';
-  bool _isApproved = false;
 
   @override
  initState()  {
     super.initState();
     _getStatus();
+    FlutterNativeSplash.remove();
+
 
   }
 
   Future<void> _getStatus() async {
     final doc = await FirebaseFirestore.instance
-        .collection('loan_status')
+        .collection('userStatus')
         .doc(widget.userId)
         .get();
 
     if (doc.exists) {
       setState(() {
-        _status = doc['status'];
-        _isApproved = doc['isApproved'];
+        _status = doc['userStatus'];
+
       });
     }
   }
 
-  Future<void> _updateStatus() async {
+  Future<void> _updateStatus(String status) async {
     await FirebaseFirestore.instance
-        .collection('loan_status')
+        .collection('userStatus')
         .doc(widget.userId)
         .set({
-      'status': _status,
-      'isApproved': _isApproved,
+      'userStatus': status,
+      'userId': widget.userId,
+      'name': widget.name
+
     });
   }
 
@@ -69,7 +74,10 @@ class _LoanStatusScreenAdminState extends State<LoanStatusScreenAdmin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.lightGreen,
       appBar: AppBar(
+        backgroundColor: Colors.lightGreen,
+        centerTitle: true,
         title: Text('Loan Status'),
       ),
       body: Container(
@@ -101,9 +109,9 @@ class _LoanStatusScreenAdminState extends State<LoanStatusScreenAdmin> {
                 onTap: () {
                   setState(() {
                     _status = 'Approved';
-                    _isApproved = true;
+
                   });
-                  _updateStatus();
+                  _updateStatus(_status);
                 },
               ),
             ),
@@ -124,9 +132,9 @@ class _LoanStatusScreenAdminState extends State<LoanStatusScreenAdmin> {
                 onTap: () {
                   setState(() {
                     _status = 'In Review';
-                    _isApproved = false;
+
                   });
-                  _updateStatus();
+                  _updateStatus(_status);
                 },
               ),
             ),
@@ -146,9 +154,9 @@ class _LoanStatusScreenAdminState extends State<LoanStatusScreenAdmin> {
                 onTap: () {
                   setState(() {
                     _status = 'Rejected';
-                    _isApproved = false;
+
                   });
-                  _updateStatus();
+                  _updateStatus(_status);
                 },
               ),
             ),

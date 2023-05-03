@@ -7,7 +7,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:loan_app/screens/homeScreens/about_us_screen.dart';
-import 'package:loan_app/screens/loan_detail.dart';
+import 'package:loan_app/screens/homeScreens/loan_detail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:velocity_x/velocity_x.dart';
@@ -16,7 +16,7 @@ import 'package:firebase_auth/firebase_auth.dart' as auth;
 import '../../generated/assets.dart';
 import '../../model/user_model.dart';
 import '../authScreen/add_mobile_screen.dart';
-import '../loan_status_screen.dart';
+import 'loan_status_screen.dart';
 import 'hitory_screen.dart';
 import '../loanDetailsScreen.dart';
 import 'need_help.dart';
@@ -37,17 +37,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
   }
 
-  void signOut() async  {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('isUser', false);
-     await _firebaseAuth.signOut();
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) =>
-              AddMobileNumberScreen()),
-      //  MaterialPageRoute(builder: (context) => HomeScreen()),
-    );
+  bool isUser = false;
+  void signOut() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isUser = prefs.getBool('isUser') ?? false;
+      print('isUser: $isUser');
+    });
+
+    /// await prefs.setBool('isUser', false);
+    //  await _firebaseAuth.signOut();
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //       builder: (context) =>
+    //           AddMobileNumberScreen()),
+    //   //  MaterialPageRoute(builder: (context) => HomeScreen()),
+    // );
   }
 
   Future<UserDataModel?> getUserData() async {
@@ -95,35 +101,71 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Card(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Row (children: [
-                            FaIcon(FontAwesomeIcons.userTie,
-                              size: 32,color: Colors.black,),
-                            Expanded(
-                              child: ListTile(
-                                title: Text("${userData.name}"),
-                                subtitle: Text("${userData.phoneNo}"),
-                                trailing:  Column(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: (){
-                                        setState(() {
-                                          button = !button!;
-                                        });
-                                      },
-                                      child: FaIcon(
-                                        button! ? FontAwesomeIcons.toggleOn : FontAwesomeIcons.toggleOff,
-                                        size: 32,
-                                        color: button! ?  Colors.blue : Colors.grey,
-                                      ),
+                          child: Row(
+                            children: [
+                              // Container(
+                              //   height: 40,
+                              //   width: 50,
+                              //   decoration: BoxDecoration(
+                              //     color: Colors.lightGreenAccent,
+                              //     shape: BoxShape.circle,
+                              //   ),
+                              //   child: ClipOval(
+                              //     child:
+                              //     userData.selfiUrl != null ? Padding(
+                              //       padding: const EdgeInsets.all(28.0),
+                              //       child: Image.network(
+                              //         "${userData.selfiUrl}",
+                              //
+                              //       ),
+                              //     ) : Icon(Icons.person,color: Colors.blue,size: 24,),
+                              //
+                              //   ),
+                              // ),
+                              userData.selfiUrl != null
+                                  ? SizedBox(
+                                height: 100.0,
+                                width: 100.0,
+                                child: ClipOval(
+                                  child:Center(
+                                    child: FadeInImage.assetNetwork(
+                                      placeholder: 'assets/8.gif',
+                                      image: "${userData.selfiUrl}",
                                     ),
-                                    Text(button! ? 'English' : 'Urdu'),
-                                  ],
+                                  ),
                                 ),
+                              )
+                                  : SizedBox(),
 
-
+                              Expanded(
+                                child: ListTile(
+                                  title: Text("${userData.name}"),
+                                  subtitle: Text("${userData.phoneNo}"),
+                                  trailing: Column(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            button = !button!;
+                                          });
+                                        },
+                                        child: FaIcon(
+                                          button!
+                                              ? FontAwesomeIcons.bell
+                                              : FontAwesomeIcons.bellSlash,
+                                          size: 32,
+                                          color: button!
+                                              ? Colors.blue
+                                              : Colors.grey,
+                                        ),
+                                      ),
+                                     Text(  button! ? 'Notification' : 'Mute'),
+                                    ],
+                                  ),
+                                ),
                               ),
-                            ),
-                          ],),
+                            ],
+                          ),
                         ),
                       ),
                       Padding(
@@ -135,7 +177,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   BorderRadius.all(Radius.circular(10))),
                           child: Column(
                             children: [
-
                               ListTile(
                                       onTap: () {
                                         showDialog(
@@ -173,7 +214,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                       color: Colors.blue,
                                                     ),
                                                     onTap: () {
-                                                    launch('tel:+923356838867');
+                                                      launch(
+                                                          'tel:+923356838867');
                                                     },
                                                   ),
                                                   Text('Contact Via'),
@@ -185,7 +227,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                       color: Colors.green,
                                                     ),
                                                     onTap: () {
-                                                      launch('https://wa.me/+923356838867');
+                                                      launch(
+                                                          'https://wa.me/+923356838867');
                                                     },
                                                   ),
                                                 ],
@@ -211,7 +254,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         ),
                                         child: ClipOval(
                                           child: Image.asset(
-                                            Assets.iconsSupport,
+                                            'assets/needHelp.jpeg',
                                             height: 50,
                                             width: 50,
                                             fit: BoxFit.cover,
@@ -226,12 +269,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => LoanDetail()),
+                                          builder: (context) => LoanDetail(userId: userData.uID,name: userData.cnicName,)),
                                       //  MaterialPageRoute(builder: (context) => HomeScreen()),
                                     );
                                   },
                                   leading: Icon(Icons.person_outline_outlined),
-                                  title: Text('About Order Status '),
+                                  title: Text('Apply For Loan '),
                                   trailing: Icon(Icons.arrow_forward_ios)),
                               ListTile(
                                   onTap: () {
@@ -269,44 +312,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       //  MaterialPageRoute(builder: (context) => HomeScreen()),
                                     );
                                   },
-                                  leading:   FaIcon(FontAwesomeIcons.shuffle,),
-
+                                  leading: FaIcon(
+                                    FontAwesomeIcons.shuffle,
+                                  ),
                                   title: Text('Status'),
                                   trailing: Icon(Icons.arrow_forward_ios)),
 
-                              ListTile(
-                                onTap: () async {
-                                  bool confirmSignOut = await showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Are you sure you want to sign out?'),
-                                        actions: [
-                                          TextButton(
-                                            child: Text('Cancel'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop(false);
-                                            },
-                                          ),
-                                          TextButton(
-                                            child: Text('Sign out'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop(true);
-                                            },
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                  );
-
-                                  if (confirmSignOut ?? false) {
-                                    signOut();
-                                  }
-                                },
-                                leading: FaIcon(FontAwesomeIcons.signOut),
-                                title: Text('Log out'),
-                                trailing: Icon(Icons.arrow_forward_ios),
-                              ),
+                              // ListTile(
+                              //   onTap: () async {
+                              //     bool confirmSignOut = await showDialog(
+                              //       context: context,
+                              //       builder: (BuildContext context) {
+                              //         return AlertDialog(
+                              //           title: Text('Are you sure you want to sign out?'),
+                              //           actions: [
+                              //             TextButton(
+                              //               child: Text('Cancel'),
+                              //               onPressed: () {
+                              //                 Navigator.of(context).pop(false);
+                              //               },
+                              //             ),
+                              //             TextButton(
+                              //               child: Text('Sign out'),
+                              //               onPressed: () {
+                              //                 Navigator.of(context).pop(true);
+                              //               },
+                              //             ),
+                              //           ],
+                              //         );
+                              //       },
+                              //     );
+                              //
+                              //     if (confirmSignOut ?? false) {
+                              //       signOut();
+                              //     }
+                              //   },
+                              //   leading: FaIcon(FontAwesomeIcons.signOut),
+                              //   title: Text('Log out'),
+                              //   trailing: Icon(Icons.arrow_forward_ios),
+                              // ),
+                              SizedBox(height: 15),
 
                             ],
                           ),

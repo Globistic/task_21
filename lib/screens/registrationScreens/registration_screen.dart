@@ -107,7 +107,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                     Expanded(
                                       flex: 7,
                                       child: LinearProgressIndicator(
-                                        value: 0.2, // 90% as decimal value
+                                        value: 0.3, // 90% as decimal value
                                         backgroundColor: Colors.grey[300],
                                         valueColor:
                                         AlwaysStoppedAnimation<Color>(Colors.blue),
@@ -119,7 +119,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       child: Align(
                                         alignment: Alignment.center,
                                         child: Text(
-                                          '20%',
+                                          '30%',
                                           style: TextStyle(
                                             fontSize: 20,
                                             color: Colors.black87,
@@ -453,7 +453,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                 },
                                                 child: Neumorphic(
                                                   style: const NeumorphicStyle(
-                                                    depth: 10,
+                                                    depth: 2,
                                                     intensity: 0.8,
                                                     shape: NeumorphicShape.flat,
                                                     lightSource:
@@ -490,7 +490,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                 },
                                                 child: Neumorphic(
                                                   style: const NeumorphicStyle(
-                                                    depth: 10,
+                                                    depth: 2,
                                                     intensity: 0.8,
                                                     shape: NeumorphicShape.flat,
                                                   ),

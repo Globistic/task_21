@@ -2,9 +2,17 @@
 class Assets {
   Assets._();
 
+  static const String assets8 = 'assets/8.gif';
+  static const String assetsLoading = 'assets/loading.gif';
+  static const String assetsLocation50 = 'assets/location50.png';
+  static const String assetsMap1 = 'assets/map1.svg';
+  static const String assetsNeedHelp = 'assets/needHelp.jpeg';
+  static const String assetsUndrawDeliveryReF50b = 'assets/undraw_Delivery_re_f50b.png';
+  static const String assetsUndrawLocationTrackingReN3ok = 'assets/undraw_location_tracking_re_n3ok.svg';
+  static const String iconsCall = 'assets/icons/call.jpeg';
   static const String iconsSupport = 'assets/icons/support.jpeg';
-  static const String iconCall = 'assets/icons/call.jpeg';
-  static const String iconWattsApp  = 'assets/icons/wattsapp.jpeg';
+  static const String iconsWattsapp = 'assets/icons/wattsapp.jpeg';
   static const String imagesAppIcon = 'assets/images/app_icon.jpeg';
+  static const String loanAppAssetsUndrawDeliveryReF50b = 'assets/undraw_delivery_re_f50b.svg';
 
 }

@@ -117,7 +117,7 @@ class _NameScreenState extends State<NameScreen> {
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return 'Please enter your first name';
-                                    } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
+                                    } else if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(value)) {
                                       return 'Please enter a valid first name';
                                     }
                                     return null;
@@ -146,7 +146,7 @@ class _NameScreenState extends State<NameScreen> {
                                   validator: (value) {
                                     if (value!.isEmpty) {
                                       return 'Please enter your last name';
-                                    } else if (!RegExp(r'^[a-zA-Z]+$').hasMatch(value)) {
+                                    } else if (!RegExp(r'^[a-zA-Z ]+$').hasMatch(value)) {
                                       return 'Please enter a valid last name';
                                     }
                                     return null;
